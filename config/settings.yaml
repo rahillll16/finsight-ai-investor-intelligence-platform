@@ -1,0 +1,16 @@
+frontend:
+  api-url: http://loaclhost:8000
+
+backend:
+
+  openai:
+    model: gpt-4o-mini
+
+  embedding:
+    model: all-MiniLM-L6-v2
+
+  vectorstore:
+    collection_name: finsight-ai
+
+  database:
+    type: postgresql
