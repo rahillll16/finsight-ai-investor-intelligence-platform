@@ -1,5 +1,5 @@
 frontend:
-  api-url: http://loaclhost:8000
+  api-url: http://localhost:8000
 
 backend:
 

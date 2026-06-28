@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from routes.health import router as health_router
+from routes.dashboard import router as dashboard_router
+from routes.comparison import router as comparison_router
 
 app = FastAPI(
     title="FinSight-AI",
@@ -8,6 +10,8 @@ app = FastAPI(
 )
 
 app.include_router(health_router)
+app.include_router(dashboard_router)
+app.include_router(comparison_router)
 
 @app.get("/")
 def root():

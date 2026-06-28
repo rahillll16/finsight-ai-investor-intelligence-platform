@@ -1,0 +1,42 @@
+from fastapi import APIRouter, HTTPException
+from sqlalchemy.orm import Session
+
+from database.db import SessionLocal
+from database.metrics import FinancialMetric
+
+router = APIRouter(
+    prefix="/dashboard",
+    tags=["Dashboard"]
+)
+
+@router.get("/{company}")
+def get_dashboard_data(company: str):
+    
+    db: Session = SessionLocal()
+    
+    metric = (
+        db.query(FinancialMetric)
+        .filter(
+            FinancialMetric.company == company
+        )
+        .first()
+    )
+    
+    db.close()
+    
+    if not metric:
+        raise HTTPException(
+            status_code=404,
+            detail="Company data not found."
+        )
+        
+    return {
+        "company": metric.company,
+        "year": metric.year,
+        "revenue": metric.revenue,
+        "net_income": metric.net_income,
+        "cash_flow": metric.cash_flow,
+        "debt": metric.debt,
+        "operating_margin": metric.operating_margin,
+        "r_and_d_expense": metric.r_and_d_expense
+    }

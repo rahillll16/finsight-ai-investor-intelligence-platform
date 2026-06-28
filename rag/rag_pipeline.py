@@ -3,7 +3,10 @@ from llm.openai_client import get_embedding_model
 
 from vectorstore.chroma_db import get_collection
 
-def ask_question(question: str) -> str:
+def ask_question(
+    question: str,
+    company: str | None = None
+) -> str:
     
     embedding_model = get_embedding_model()
     
@@ -13,10 +16,17 @@ def ask_question(question: str) -> str:
     
     collection = get_collection()
     
-    results = collection.query(
-        query_embeddings=[query_embedding],
-        n_results=3
-    )
+    query_params = {
+        "query_embeddings": [query_embedding],
+        "n_results": 3
+    }
+
+    if company:
+        query_params["where"] = {
+            "company": company
+        }
+    
+    results = collection.query(**query_params)
     
     documents = results.get("documents")
 
