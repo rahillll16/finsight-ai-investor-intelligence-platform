@@ -24,3 +24,15 @@ Cleanup / Optimization Backlog
 - Add Hybrid Search (BM25)
 - Add Reranker
 - Add structured extraction prompts
+
+
+10. Cleanup Backlog
+
+- Replace deprecated HuggingFace embeddings
+- Move to async endpoints
+- Add try-except blocks
+- Add dependency injection
+- Add service layer
+- Improve KPI extraction accuracy
+- Add structured logging
+- Refactor architecture
