@@ -1,44 +1,46 @@
 from llm.openai_client import get_llm
-from llm.openai_client import get_embedding_model
 
-from vectorstore.chroma_db import get_collection
+from retrieval.hybrid_retriever import HybridRetriever
+from retrieval.reranker import Reranker
+from retrieval.query_expander import expand_query
+
+
+retriever = HybridRetriever()
+reranker = Reranker()
+
 
 def ask_question(
     question: str,
     company: str | None = None
 ) -> str:
     
-    embedding_model = get_embedding_model()
-    
-    query_embedding = embedding_model.embed_query(
-        question
-    )
-    
-    collection = get_collection()
-    
-    query_params = {
-        "query_embeddings": [query_embedding],
-        "n_results": 3
-    }
+    expanded_query = expand_query(question)
 
-    if company:
-        query_params["where"] = {
-            "company": company
-        }
-    
-    results = collection.query(**query_params)
-    
-    documents = results.get("documents")
+    print(f"\nExpanded Query: {expanded_query}")
+
+    documents = retriever.retrieve(
+        query=expanded_query,
+        company=company,
+        top_k=10
+    )
+
+    documents = reranker.rerank(
+        query=expanded_query,
+        documents=documents,
+        top_k=3
+    )
 
     if not documents:
         return "No relevant information found."
 
-    context = "\n\n".join(documents[0])
-    
-    prompt = f"""
-You are a financial analyst.
+    context = "\n\n".join(documents)
 
-Answer the question only using the context below.
+    prompt = f"""
+You are an expert financial analyst.
+
+Answer the question ONLY using the context provided.
+
+If the information is unavailable, clearly say so.
 
 Context:
 {context}
@@ -52,5 +54,11 @@ Answer:
     llm = get_llm()
 
     response = llm.invoke(prompt)
+
+    if isinstance(response.content, list):
+        return "\n".join(
+            str(item)
+            for item in response.content
+        )
 
     return str(response.content)
