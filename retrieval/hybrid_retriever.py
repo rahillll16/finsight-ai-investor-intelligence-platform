@@ -17,7 +17,9 @@ class HybridRetriever:
         self,
         query: str,
         company: str | None = None,
-        top_k: int = 5
+        top_k: int = 5,
+        user_id: int | None = None,
+        
     ):
         
         query_embedding = self.embedding_model.embed_query(
@@ -29,7 +31,15 @@ class HybridRetriever:
             "n_results": top_k
         }
         
-        if company:
+        if company and user_id:
+            semantic_params["where"] = {
+                "$and": [
+                    {"company": company},
+                    {"user_id": user_id}
+                ]
+            }
+
+        elif company:
             semantic_params["where"] = {
                 "company": company
             }
@@ -44,6 +54,7 @@ class HybridRetriever:
         bm25_docs = self.bm25.retrieve(
             query,
             company=company,
+            user_id=user_id,
             top_k=top_k
         )
         

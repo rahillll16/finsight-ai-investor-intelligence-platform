@@ -13,12 +13,21 @@ class BM25Retriever:
         self,
         query: str,
         company: str | None = None,
-        top_k: int = 5
+        top_k: int = 5,
+        user_id: int | None = None,
     ):
 
         params = {}
         
-        if company:
+        if company and user_id:
+            params["where"] = {
+                "$and": [
+                    {"company": company},
+                    {"user_id": user_id}
+                ]
+            }
+
+        elif company:
             params["where"] = {
                 "company": company
             }

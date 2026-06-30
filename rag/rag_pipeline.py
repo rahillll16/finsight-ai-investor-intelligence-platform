@@ -11,7 +11,8 @@ reranker = Reranker()
 
 def ask_question(
     question: str,
-    company: str | None = None
+    company: str | None = None,
+    user_id: int | None = None
 ) -> str:
     
     expanded_query = expand_query(question)
@@ -21,6 +22,7 @@ def ask_question(
     documents = retriever.retrieve(
         query=expanded_query,
         company=company,
+        user_id=user_id,
         top_k=10
     )
 

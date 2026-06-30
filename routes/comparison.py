@@ -1,5 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
+
+from auth.oauth2 import get_current_user
+from database.user import User
 
 from database.db import SessionLocal
 from database.metrics import FinancialMetric
@@ -13,7 +16,10 @@ router = APIRouter(
 @router.get("/")
 def compare_companies(
         company1: str,
-        company2: str
+        company2: str,
+        current_user: User = Depends(
+        get_current_user
+    )
 ):
 
     db: Session = SessionLocal()
@@ -21,7 +27,8 @@ def compare_companies(
     metric1 = (
         db.query(FinancialMetric)
         .filter(
-            FinancialMetric.company == company1
+            FinancialMetric.company == company1,
+            FinancialMetric.user_id == current_user.id
         )
         .first()
     )
@@ -29,7 +36,8 @@ def compare_companies(
     metric2 = (
         db.query(FinancialMetric)
         .filter(
-            FinancialMetric.company == company2
+            FinancialMetric.company == company2,
+            FinancialMetric.user_id == current_user.id
         )
         .first()
     )

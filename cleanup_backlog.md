@@ -36,3 +36,47 @@ Cleanup / Optimization Backlog
 - Improve KPI extraction accuracy
 - Add structured logging
 - Refactor architecture
+
+
+11.  Authentication Cleanup Backlog
+
+## Security
+
+* Replace integer IDs with UUIDs.
+* Move SECRET_KEY generation to deployment pipeline.
+* Add Refresh Token support.
+* Add Access Token rotation.
+* Enable secure=True cookies in production.
+* Add SameSite=Strict in production.
+* Add CSRF protection for cookie-based authentication.
+
+## Architecture
+
+* Add Repository Layer for authentication.
+* Add Service Layer for authentication logic.
+* Use FastAPI dependency injection for database sessions.
+* Centralize exception handling.
+
+## Features
+
+* Forgot Password functionality.
+* Password Reset via Email.
+* Email Verification.
+* User Profile Management.
+* Role-Based Access Control (RBAC).
+
+## Monitoring
+
+* Authentication logging.
+* Failed login tracking.
+* Suspicious activity detection.
+* Rate limiting on login endpoint.
+
+## Database
+
+* Migrate User IDs to UUIDs.
+* Add created_at and updated_at timestamps.
+* Add last_login timestamp.
+
+```
+```

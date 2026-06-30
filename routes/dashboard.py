@@ -1,5 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
+
+from auth.oauth2 import get_current_user
+from database.user import User
 
 from database.db import SessionLocal
 from database.metrics import FinancialMetric
@@ -10,14 +13,19 @@ router = APIRouter(
 )
 
 @router.get("/{company}")
-def get_dashboard_data(company: str):
+def get_dashboard_data(
+    company: str,
+    current_user: User = Depends(
+        get_current_user
+    )
+):
     
     db: Session = SessionLocal()
     
     metric = (
-        db.query(FinancialMetric)
-        .filter(
-            FinancialMetric.company == company
+        db.query(FinancialMetric).filter(
+            FinancialMetric.company == company,
+            FinancialMetric.user_id == current_user.id
         )
         .first()
     )

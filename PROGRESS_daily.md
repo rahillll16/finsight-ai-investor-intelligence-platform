@@ -433,3 +433,364 @@ Day 2: Complete ✅
 Overall Project Completion: ~40%
 ```
 
+
+# FinSight AI Progress Report
+
+---
+
+# Day 3 - Advanced RAG System ✅
+
+## Objective
+
+Upgrade the basic RAG pipeline into an enterprise-grade retrieval system.
+
+## Features Implemented
+
+### Hybrid Retrieval
+
+- Implemented Semantic Search using ChromaDB.
+- Implemented BM25 keyword-based retrieval.
+- Combined both approaches into a Hybrid Retriever.
+
+### Advanced Retrieval Enhancements
+
+- Implemented Cross-Encoder Reranking.
+- Added Query Expansion for financial terminology.
+- Improved retrieval quality significantly.
+
+### Query Expansion Examples
+
+```text
+Revenue
+→ total revenue, sales, net sales, total revenues
+
+Net Income
+→ net earnings, profit, net profit
+
+R&D
+→ research spending, R&D expense, R&D spending
+```
+
+### Final Retrieval Architecture
+
+```text
+User Query
+      ↓
+Query Expansion
+      ↓
+Hybrid Retrieval
+      ↓
+Semantic Search + BM25
+      ↓
+Cross Encoder Reranker
+      ↓
+Top Relevant Chunks
+      ↓
+GPT-4o-mini
+      ↓
+Grounded Answer
+```
+
+## Performance Improvement
+
+```text
+Before Query Expansion
+Accuracy ≈ 33%
+
+After Query Expansion
+Accuracy ≈ 56%
+```
+
+## Files Added/Modified
+
+```text
+retrieval/
+├── bm25_retriever.py
+├── hybrid_retriever.py
+├── reranker.py
+└── query_expander.py
+
+rag/
+└── rag_pipeline.py
+```
+
+## Day 3 Status
+
+```text
+Completion: 100%
+```
+
+---
+
+# Day 4 - Authentication & Security ✅
+
+## Objective
+
+Transform FinSight AI into a secure SaaS platform.
+
+## Features Implemented
+
+### User Management
+
+- Created User model.
+- Added User database table.
+
+### Password Security
+
+- Implemented password hashing using Passlib + bcrypt.
+- Added password verification.
+
+### JWT Authentication
+
+- JWT token generation.
+- Environment variable based secret management.
+
+### Cookie-Based Authentication
+
+Implemented:
+
+```text
+JWT + HttpOnly Cookies
+```
+
+Benefits:
+
+```text
+- Secure against XSS attacks.
+- JavaScript cannot access tokens.
+- Production-grade authentication flow.
+```
+
+### Authentication APIs
+
+Implemented:
+
+```http
+POST /auth/register
+POST /auth/login
+POST /auth/logout
+GET  /auth/me
+```
+
+### Protected Routes
+
+Implemented:
+
+```python
+current_user = Depends(get_current_user)
+```
+
+Features:
+
+- JWT verification.
+- Cookie extraction.
+- Current user retrieval.
+- Protected endpoint access.
+
+### Authentication Flow
+
+```text
+User
+   ↓
+Login
+   ↓
+Credential Validation
+   ↓
+JWT Generation
+   ↓
+HttpOnly Cookie
+   ↓
+Protected APIs
+```
+
+## Files Added
+
+```text
+auth/
+├── auth_handler.py
+├── hashing.py
+└── oauth2.py
+
+schemas/
+└── user.py
+
+routes/
+└── auth.py
+
+database/
+└── user.py
+```
+
+## Day 4 Status
+
+```text
+Completion: 100%
+```
+
+---
+
+# Day 5 - Multi-Tenant SaaS Architecture ✅
+
+## Objective
+
+Implement complete user data isolation.
+
+## Features Implemented
+
+### User-Specific Metrics
+
+Added:
+
+```python
+user_id = Column(
+    Integer,
+    ForeignKey("users.id"),
+    nullable=False
+)
+```
+
+to:
+
+```text
+FinancialMetric
+```
+
+### Dashboard Isolation
+
+Implemented user-specific filtering:
+
+```python
+FinancialMetric.company == company
+AND
+FinancialMetric.user_id == current_user.id
+```
+
+### ChromaDB Isolation
+
+Added metadata:
+
+```python
+{
+    "company": company,
+    "year": year,
+    "source": source,
+    "user_id": user_id
+}
+```
+
+### Document ID Isolation
+
+```python
+f"{company}_{year}_{user_id}_{idx}"
+```
+
+### Hybrid Retriever Isolation
+
+Implemented filtering for:
+
+- Semantic Search.
+- BM25 Retrieval.
+- RAG Pipeline.
+
+Example:
+
+```python
+where={
+    "$and": [
+        {"company": company},
+        {"user_id": user_id}
+    ]
+}
+```
+
+### Final Multi-Tenant Architecture
+
+```text
+User Login
+     ↓
+JWT Cookie
+     ↓
+Current User
+     ↓
+user_id
+     ↓
+Hybrid Retriever
+     ↓
+ChromaDB + SQL
+     ↓
+GPT-4o-mini
+```
+
+### Result
+
+```text
+User A
+   ↓
+Can only access User A's:
+- Documents
+- Metrics
+- Dashboard Data
+- RAG Responses
+
+User B
+   ↓
+Can only access User B's data
+```
+
+## Files Modified
+
+```text
+database/
+├── metric.py
+└── save_metrics.py
+
+retrieval/
+├── hybrid_retriever.py
+└── bm25_retriever.py
+
+rag/
+└── rag_pipeline.py
+
+ingestion/
+└── ingest_document.py
+
+routes/
+└── dashboard.py
+```
+
+## Day 5 Status
+
+```text
+Completion: 100%
+```
+
+---
+
+# Overall Project Progress
+
+```text
+Day 1 ✅
+Day 2 ✅
+Day 3 ✅
+Day 4 ✅
+Day 5 ✅
+```
+
+## Current Overall Completion
+
+```text
+Backend Completion: ~80%
+Overall Project Completion: ~70%
+```
+
+## Upcoming
+
+### Day 6
+
+- React + Vite Setup
+- Tailwind CSS Setup
+- Authentication UI
+- Routing
+- Navbar + Sidebar
+- Dashboard Layout
+

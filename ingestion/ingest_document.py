@@ -11,7 +11,8 @@ from vectorstore.chroma_db import get_collection
 def ingest_document(
     pdf_path: str,
     company: str,
-    year: int
+    year: int,
+    user_id: int
 ):
     # PDF -> Markdown -> Chunk -> Embedding -> ChromaDB
     
@@ -43,7 +44,7 @@ def ingest_document(
         )
         
         collection.add(
-            ids=[f"{company}_{year}_{idx}"],
+            ids=[f"{company}_{year}_{user_id}_{idx}"],
             documents=[doc.page_content],
             embeddings=[embedding],
             
@@ -51,7 +52,8 @@ def ingest_document(
                 {
                     "company": company,
                     "year": year,
-                    "source": os.path.basename(pdf_path)
+                    "source": os.path.basename(pdf_path),
+                    "user_id": user_id
                 }
             ]
         )

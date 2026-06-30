@@ -1,4 +1,5 @@
 from database.db import Base, engine
+from database.user import User
 
 #import all models here
 from database.metrics import FinancialMetric
