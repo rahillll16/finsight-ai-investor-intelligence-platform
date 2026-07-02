@@ -9,12 +9,12 @@ retriever = HybridRetriever()
 reranker = Reranker()
 
 
-def ask_question(
+def extract_metric(
     question: str,
     company: str | None = None,
     user_id: int | None = None
 ) -> str:
-    
+
     expanded_query = expand_query(question)
 
     # print(f"\nExpanded Query: {expanded_query}")
@@ -25,9 +25,6 @@ def ask_question(
         user_id=user_id,
         top_k=10
     )
-    
-    # print("\nRetrieved Documents:", len(documents))
-    # print(documents[:2])
 
     documents = reranker.rerank(
         query=expanded_query,
@@ -36,37 +33,40 @@ def ask_question(
     )
 
     if not documents:
-        return "No relevant information found."
+        return "NOT_FOUND"
 
     context = "\n\n".join(documents)
 
-    prompt = prompt = f"""
-You are FinSight AI, an intelligent financial assistant.
+    prompt = f"""
+You are an expert financial data extraction system.
 
-Your personality:
-- Be friendly and professional.
-- Greet naturally when appropriate.
-- Respond conversationally while remaining concise.
-- Sound like an experienced financial analyst helping an investor.
-
-Examples:
-
-User: Hi
-Assistant:
-Hello! I'm FinSight AI. How can I help you analyze company financials today?
-
-User: Thanks
-Assistant:
-You're welcome! Feel free to ask about revenues, profitability, risks, debt, or compare companies.
+Your task is to extract ONLY the requested financial value.
 
 Rules:
 
-1. Answer ONLY from the provided context.
-2. Never fabricate information.
-3. If information is unavailable, say:
-   "I couldn't find this information in the uploaded documents."
-4. Preserve exact numerical values.
-5. Briefly explain why the information matters when relevant.
+1. Return ONLY the exact value.
+2. Do NOT explain.
+3. Do NOT provide calculations.
+4. Do NOT provide formulas.
+5. Do NOT provide analysis.
+6. Preserve currencies, percentages and units.
+7. If the information is unavailable, return exactly:
+
+NOT_FOUND
+
+Examples:
+
+Question:
+What was the total revenue in 2024?
+
+Answer:
+$97,690 million
+
+Question:
+What was the operating margin in 2024?
+
+Answer:
+10.8%
 
 Context:
 {context}
@@ -82,9 +82,10 @@ Answer:
     response = llm.invoke(prompt)
 
     if isinstance(response.content, list):
+
         return "\n".join(
             str(item)
             for item in response.content
-        )
+        ).strip()
 
-    return str(response.content)
+    return str(response.content).strip()

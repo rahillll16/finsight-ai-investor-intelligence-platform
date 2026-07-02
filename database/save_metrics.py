@@ -1,5 +1,6 @@
 from database.db import SessionLocal
 from database.metrics import FinancialMetric
+from database.user import User
 
 
 def save_metrics(
@@ -29,9 +30,9 @@ def save_metrics(
         db.commit()
         db.refresh(metric)
 
-        print(
-            f"Metrics saved successfully for {company}."
-        )
+        # print(
+        #     f"Metrics saved successfully for {company}."
+        # )
 
     finally:
         db.close()

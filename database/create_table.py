@@ -3,6 +3,7 @@ from database.user import User
 
 #import all models here
 from database.metrics import FinancialMetric
+from database.user import User
 
 def create_table():
     

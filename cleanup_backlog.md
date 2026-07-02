@@ -80,3 +80,147 @@ Cleanup / Optimization Backlog
 
 ```
 ```
+
+# Cleanup / Optimization Backlog
+
+To be completed during final polishing phase.
+
+## Frontend Cleanup
+
+### UI/UX
+
+- Improve Landing Page visuals
+- Add animations using Framer Motion
+- Improve spacing consistency
+- Add dark/light theme support
+- Add responsive mobile layouts
+- Add skeleton loaders
+- Add toast notifications
+- Add empty states
+
+---
+
+### Authentication
+
+- Add profile dropdown
+- Add forgot password flow
+- Add remember me option
+- Add token refresh mechanism
+
+---
+
+### Dashboard
+
+- Replace placeholders with real AI insights
+- Add charts and visualizations
+- Add financial trend analysis
+- Add KPI formatting utilities
+- Add dashboard filters
+
+---
+
+### Code Quality
+
+- Convert API calls into service layer
+- Add custom hooks
+
+Example:
+
+```text
+useDashboard()
+useAuth()
+```
+
+- Add reusable UI components
+- Add global error boundary
+- Add TypeScript (optional future upgrade)
+
+---
+
+### Backend Cleanup
+
+- Convert all routes to async
+- Add dependency injection
+- Add structured logging
+- Add centralized exception handling
+- Add service layer architecture
+- Add caching layer
+- Optimize retrieval latency
+
+---
+
+### RAG Improvements
+
+- Improve KPI extraction accuracy
+- Add agentic workflows
+- Add citations in responses
+- Add conversation memory
+- Add source attribution
+- Add financial summarization pipeline
+
+---
+
+
+## Frontend
+
+- [ ] Responsive dashboard layout.
+- [ ] Active sidebar navigation highlighting.
+- [ ] Empty states for dashboard.
+- [ ] Skeleton loaders.
+- [ ] Better loading animations.
+- [ ] Auto-scroll chat messages.
+- [ ] Chat typing animation.
+- [ ] Improve chat UX/personality.
+- [ ] Add toast notifications.
+
+---
+
+## Dashboard
+
+- [ ] Clean KPI extraction.
+- [ ] Add trend indicators.
+- [ ] Add charts.
+- [ ] Add company logos.
+- [ ] Add AI-generated summary from actual metrics.
+
+---
+
+## Comparison
+
+- [ ] Connect real API.
+- [ ] Add comparison table.
+- [ ] Add risk score visualization.
+- [ ] Add green/red metric highlighting.
+- [ ] Add comparison charts.
+
+---
+
+## Upload System
+
+- [ ] Upload report UI.
+- [ ] Upload API.
+- [ ] Automatic ingestion.
+- [ ] Automatic KPI extraction.
+- [ ] Save metrics automatically.
+- [ ] Progress indicator.
+
+---
+
+## RAG
+
+- [ ] Improve retrieval quality.
+- [ ] Better query expansion.
+- [ ] Section-aware chunking.
+- [ ] Conversation memory.
+- [ ] Citation support.
+
+---
+
+## Backend
+
+- [ ] Database migrations using Alembic.
+- [ ] Centralized error handling.
+- [ ] Logging.
+- [ ] Background task queue.
+
+---

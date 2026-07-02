@@ -794,3 +794,802 @@ Overall Project Completion: ~70%
 - Navbar + Sidebar
 - Dashboard Layout
 
+
+# FinSight AI Progress Report
+
+---
+
+# Day 6 - Frontend Foundation & Dashboard Integration ✅
+
+## Objective
+
+Build the complete frontend foundation for FinSight AI and integrate it with the backend authentication and dashboard APIs.
+
+---
+
+## Features Implemented
+
+# Frontend Setup
+
+✅ Initialized React + Vite frontend
+
+✅ Configured project structure
+
+✅ Configured Axios API client
+
+### Architecture
+
+```text
+frontend/
+├── api/
+├── components/
+├── context/
+├── layouts/
+├── pages/
+├── App.jsx
+└── main.jsx
+```
+
+---
+
+# Authentication Frontend
+
+## Auth Context
+
+Implemented centralized authentication state management.
+
+Features:
+
+```text
+✓ Current user state
+✓ Loading state
+✓ Persistent authentication
+✓ Logout functionality
+✓ Fetch current user
+```
+
+Implemented:
+
+```text
+context/
+└── AuthContext.jsx
+```
+
+---
+
+## Route Protection
+
+Implemented:
+
+### ProtectedRoute
+
+```text
+Authenticated users only
+```
+
+Used for:
+
+```text
+/dashboard
+/comparison
+/chat
+```
+
+### GuestRoute
+
+```text
+Unauthenticated users only
+```
+
+Used for:
+
+```text
+/login
+/register
+```
+
+Implemented:
+
+```text
+components/
+├── ProtectedRoute.jsx
+└── GuestRoute.jsx
+```
+
+---
+
+# Authentication Pages
+
+## Login Page
+
+Implemented:
+
+```text
+✓ Login form
+✓ API integration
+✓ Error handling
+✓ Loading state
+✓ Redirect after login
+```
+
+Endpoint:
+
+```http
+POST /auth/login
+```
+
+---
+
+## Register Page
+
+Implemented:
+
+```text
+✓ Registration form
+✓ API integration
+✓ Error handling
+✓ Redirect to login
+```
+
+Endpoint:
+
+```http
+POST /auth/register
+```
+
+---
+
+# Authentication Flow
+
+Final flow:
+
+```text
+User
+ ↓
+Login
+ ↓
+JWT Cookie Stored
+ ↓
+Fetch Current User
+ ↓
+Protected Dashboard Access
+```
+
+---
+
+# Logout Flow
+
+Implemented:
+
+```text
+POST /auth/logout
+```
+
+Features:
+
+```text
+✓ Cookie removal
+✓ Frontend state reset
+✓ Redirect to login
+```
+
+---
+
+# CORS Configuration
+
+Configured FastAPI CORS middleware.
+
+Purpose:
+
+```text
+React Frontend
+        ↓
+FastAPI Backend
+```
+
+Configuration:
+
+```python
+allow_origins=["http://localhost:5173"]
+allow_credentials=True
+```
+
+---
+
+# Landing Page
+
+Implemented initial SaaS landing page.
+
+Sections:
+
+```text
+✓ Navbar
+✓ Hero Section
+✓ Dashboard Preview
+✓ Features Section
+✓ Call-To-Action Buttons
+```
+
+Features:
+
+```text
+✓ Hover animations
+✓ Modern SaaS styling
+✓ Responsive layout foundation
+```
+
+---
+
+# Dashboard Foundation
+
+Implemented reusable dashboard architecture.
+
+Structure:
+
+```text
+layouts/
+└── DashboardLayout.jsx
+
+components/
+├── Sidebar.jsx
+└── Navbar.jsx
+```
+
+---
+
+# Sidebar
+
+Implemented:
+
+```text
+✓ Brand logo
+✓ Upload report button
+✓ Navigation links
+```
+
+Navigation:
+
+```text
+Dashboard
+Comparison
+AI Chat
+```
+
+---
+
+# Navbar
+
+Implemented:
+
+```text
+✓ Welcome message
+✓ User avatar
+✓ User information
+✓ Logout action
+```
+
+---
+
+# Dashboard Integration
+
+Integrated dashboard frontend with backend APIs.
+
+Endpoint:
+
+```http
+GET /dashboard/{company}
+```
+
+Implemented:
+
+```text
+✓ Dynamic company selection
+✓ API fetching
+✓ Loading state
+✓ Error handling
+```
+
+---
+
+# KPI Dashboard
+
+Implemented reusable KPI cards.
+
+Component:
+
+```text
+components/dashboard/
+└── KPICard.jsx
+```
+
+Features:
+
+```text
+✓ Dynamic backend-driven rendering
+✓ Hover effects
+✓ Responsive grid layout
+```
+
+Metrics:
+
+```text
+Revenue
+Net Income
+Cash Flow
+Debt
+Operating Margin
+R&D Expense
+```
+
+---
+
+# Dynamic Company Selection
+
+Removed hardcoded company values.
+
+Added backend endpoint:
+
+```http
+GET /dashboard/companies/list
+```
+
+Capabilities:
+
+```text
+✓ User-specific companies
+✓ Dynamic dropdown
+✓ Multi-tenant support
+```
+
+---
+
+# AI Dashboard Sections
+
+Implemented placeholders for future AI capabilities.
+
+Components:
+
+```text
+AISummary
+DeepDive
+```
+
+Sections:
+
+```text
+AI Summary
+Growth Drivers
+Risk Factors
+```
+
+---
+
+# Final Frontend Flow
+
+```text
+Landing Page
+      ↓
+Login/Register
+      ↓
+Dashboard
+      ↓
+Company Selection
+      ↓
+Dynamic KPI Retrieval
+      ↓
+Financial Analysis
+```
+
+---
+
+# Challenges Faced
+
+## Frontend Challenges
+
+### CORS Issues
+
+Problem:
+
+```text
+React frontend could not communicate with FastAPI backend.
+```
+
+Solution:
+
+```text
+Configured FastAPI CORSMiddleware.
+```
+
+---
+
+### Cookie Authentication
+
+Problem:
+
+```text
+JWT stored in HttpOnly cookies required
+proper frontend/backend configuration.
+```
+
+Solution:
+
+```text
+Axios withCredentials=True
+allow_credentials=True in backend
+```
+
+---
+
+### Authentication Persistence
+
+Problem:
+
+```text
+User state was lost on refresh.
+```
+
+Solution:
+
+```text
+Implemented fetchCurrentUser() in AuthContext.
+```
+
+---
+
+### Dynamic Dashboard Design
+
+Problem:
+
+```text
+Avoid hardcoded companies and metrics.
+```
+
+Solution:
+
+```text
+Created dynamic backend-driven company APIs.
+```
+
+---
+
+# Day 6 Status
+
+```text
+Completion: ~85%
+```
+
+Remaining:
+
+```text
+□ Comparison Page UI
+□ Comparison API Integration
+□ Chat Page UI
+□ Chat API Integration
+```
+
+---
+
+# Overall Project Progress
+
+```text
+Day 1 ✅
+Day 2 ✅
+Day 3 ✅
+Day 4 ✅
+Day 5 ✅
+Day 6 🟡 (Almost Complete)
+```
+
+## Current Overall Completion
+
+```text
+Backend Completion: ~85%
+Frontend Completion: ~45%
+
+Overall Project Completion: ~78%
+```
+
+
+# Day 7
+
+---
+
+# ✅ Major Accomplishments
+
+## 1. Dashboard UI Enhancement
+
+### Completed
+- Migrated dashboard theme from blue palette to orange-black palette.
+- Updated styling across:
+  - Dashboard page
+  - Navbar
+  - Sidebar
+  - Comparison page
+  - Login page
+  - Register page
+  - KPI Cards
+  - Footer
+
+### Improvements
+- Consistent orange accent theme.
+- Better hover states.
+- Improved visual hierarchy.
+- More premium dark-mode appearance.
+
+---
+
+## 2. Dashboard Layout Improvements
+
+### Completed
+- Added global footer.
+- Added clickable GitHub profile link.
+- Improved footer positioning.
+
+Footer:
+
+```text
+Built with ❤️ by Rahil Zayn · FinSight AI © 2026
+```
+
+---
+
+## 3. Chat System Development
+
+### Backend
+
+Completed:
+
+- Chat Route
+- Chat API integration
+- Authentication-protected chat
+- RAG integration
+- Company-specific querying
+- User-specific retrieval architecture
+
+Flow:
+
+```text
+User Question
+      ↓
+Query Expansion
+      ↓
+Hybrid Retrieval
+      ↓
+Reranking
+      ↓
+LLM
+      ↓
+Answer
+```
+
+---
+
+### Frontend
+
+Completed:
+
+- Chat page UI
+- Dynamic messages state
+- Send message functionality
+- Company selector
+- API integration
+- Loading states
+- Message rendering
+
+Status:
+
+```text
+Frontend ↔ Backend communication working.
+```
+
+---
+
+## 4. Retrieval Debugging
+
+Successfully diagnosed why chat returned:
+
+```text
+No relevant information found.
+```
+
+Root cause identified:
+
+```text
+Chroma documents were ingested without:
+- company metadata
+- user_id metadata
+```
+
+Decision:
+
+```text
+Use ingest_document() exclusively going forward.
+```
+
+---
+
+## 5. Multi-Tenant RAG Architecture
+
+Verified architecture:
+
+```text
+User Upload
+      ↓
+Ingestion
+      ↓
+Chunks stored with:
+company + user_id
+      ↓
+Hybrid Retrieval
+      ↓
+RAG Pipeline
+```
+
+Confirmed that current retrieval logic is production-ready.
+
+---
+
+## 6. KPI Extraction Refactor
+
+Architectural decision:
+
+Separated:
+
+```text
+Chat Analysis
+```
+
+from
+
+```text
+Structured KPI Extraction
+```
+
+Created design for:
+
+```text
+rag/extract_metric.py
+```
+
+Benefits:
+
+- Cleaner architecture.
+- Better KPI precision.
+- Reduced hallucinations.
+- Easier maintenance.
+
+---
+
+## 7. Comparison Module Progress
+
+Completed:
+
+- Comparison backend route
+- Comparison UI skeleton
+- Comparison API integration planning
+
+Future:
+
+```text
+Risk score comparison between companies.
+```
+
+---
+
+# 🧠 Key Learnings
+
+## React
+
+Learned proper use of multiple `useEffect()` hooks.
+
+Incorrect:
+
+```jsx
+useEffect(() => {
+    fetchCompanies();
+    fetchDashboardData();
+}, [company]);
+```
+
+Correct:
+
+```jsx
+useEffect(() => {
+    fetchCompanies();
+}, []);
+
+useEffect(() => {
+    fetchDashboardData();
+}, [company]);
+```
+
+This fixed company selector resetting to Tesla.
+
+---
+
+## RAG Systems
+
+Learned:
+
+```text
+Chat prompts and extraction prompts
+must always be separated.
+```
+
+---
+
+## ChromaDB
+
+Metadata consistency is critical.
+
+Stored metadata:
+
+```python
+{
+    "company": company,
+    "user_id": user_id,
+    "year": year
+}
+```
+
+must exactly match retrieval filters.
+
+---
+
+# ⚠️ Challenges Faced
+
+### 1. Chat returning:
+
+```text
+No relevant information found.
+```
+
+Root Cause:
+
+Missing metadata in vector store.
+
+---
+
+### 2. KPI cards displaying explanations instead of values.
+
+Root Cause:
+
+Using general analyst prompt for structured extraction.
+
+---
+
+### 3. Dashboard company selector always reverting to Tesla.
+
+Root Cause:
+
+Repeated company fetch inside dependency-based useEffect.
+
+---
+
+### 4. SQLAlchemy foreign key issue:
+
+```text
+NoReferencedTableError
+```
+
+Root Cause:
+
+User model not imported during schema generation.
+
+---
+
+# 📌 Current Project Status
+
+```text
+Authentication            ██████████ 100%
+Dashboard                 █████████░ 90%
+Comparison                ███████░░░ 70%
+Chat System               ████████░░ 85%
+RAG Pipeline              ██████████ 100%
+Document Ingestion        ███████░░░ 70%
+KPI Extraction            ███████░░░ 70%
+Frontend Polish           ████████░░ 80%
+Overall MVP               ████████░░ 82%
+```
+
+---

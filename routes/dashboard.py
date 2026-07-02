@@ -12,6 +12,31 @@ router = APIRouter(
     tags=["Dashboard"]
 )
 
+@router.get("/companies/list")
+def get_user_companies(
+    current_user: User = Depends(
+        get_current_user
+    )
+):
+
+    db: Session = SessionLocal()
+
+    companies = (
+        db.query(FinancialMetric.company)
+        .filter(
+            FinancialMetric.user_id == current_user.id
+        )
+        .distinct()
+        .all()
+    )
+
+    db.close()
+
+    return [
+        company[0]
+        for company in companies
+    ]
+
 @router.get("/{company}")
 def get_dashboard_data(
     company: str,

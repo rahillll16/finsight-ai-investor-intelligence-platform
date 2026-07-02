@@ -1,26 +1,38 @@
-from rag.rag_pipeline import ask_question
+from rag.extract_metric import extract_metric
 
 
-def extract_kpis(company: str) -> dict:
+def extract_kpis(company: str, user_id: int) -> dict:
     
     questions = {
-        "revenue": "What was the company's total revenue in 2024?",
-        "net_income": "What was the company's net income in 2024?",
-        "cash_flow": "What was the company's operating cash flow in 2024?",
-        "debt": "What was the company's total debt in 2024?",
-        "operating_margin": "What was the company's operating margin in 2024?",
-        "r_and_d_expense": "What was the company's research and development expense in 2024?"
+        "revenue":
+            "Return only the total revenue for 2024.",
+
+        "net_income":
+            "Return only the net income for 2024.",
+
+        "cash_flow":
+            "Return only the operating cash flow for 2024.",
+
+        "debt":
+            "Return only the total debt for 2024.",
+
+        "operating_margin":
+            "Return only the operating margin percentage for 2024. Do not calculate.",
+
+        "r_and_d_expense":
+            "Return only the research and development expense for 2024."
     }
     
     results = {}
     
     for metric, question in questions.items():
         
-        print(f"Extracting {metric}...")
+        # print(f"Extracting {metric}...")
         
-        answer = ask_question(
+        answer = extract_metric(
             question=question,
-            company=company
+            company=company,
+            user_id=user_id
         )
         
         results[metric] = answer

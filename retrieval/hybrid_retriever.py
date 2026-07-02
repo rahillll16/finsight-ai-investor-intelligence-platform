@@ -22,6 +22,9 @@ class HybridRetriever:
         
     ):
         
+        # print("\nCompany:", company)
+        # print("User ID:", user_id)
+        
         query_embedding = self.embedding_model.embed_query(
             query
         )
@@ -51,6 +54,9 @@ class HybridRetriever:
         semantic_docs = (semantic_results.get("documents") or [[]]
         )[0]
         
+        # print("\nCompany:", company)
+        # print("User ID:", user_id)
+        
         bm25_docs = self.bm25.retrieve(
             query,
             company=company,
@@ -58,8 +64,14 @@ class HybridRetriever:
             top_k=top_k
         )
         
+        # print("\nBM25 Docs Found:")
+        # print(len(bm25_docs))
+        
         combined_docs = list(
             set(semantic_docs + bm25_docs)
         )
+        
+        # print("\nCombined Docs:")
+        # print(len(combined_docs))
         
         return combined_docs[:top_k]

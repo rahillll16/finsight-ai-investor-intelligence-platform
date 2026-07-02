@@ -43,6 +43,9 @@ class BM25Retriever:
             for doc in documents
         ]
         
+        if not tokenized_documents:
+            return []
+        
         bm25 = BM25Okapi(
             tokenized_documents
         )

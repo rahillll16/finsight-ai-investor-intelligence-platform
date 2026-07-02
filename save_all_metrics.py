@@ -9,14 +9,15 @@ companies = [
 
 for company in companies:
 
-    print(f"Extracting KPIs for {company}...")
+    # print(f"Extracting KPIs for {company}...")
 
-    metrics = extract_kpis(company)
+    metrics = extract_kpis(company,1)
 
     save_metrics(
         metrics=metrics,
         company=company,
-        year=2024
+        year=2024,
+        user_id=1
     )
 
 print("All metrics saved successfully.")
