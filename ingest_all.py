@@ -25,7 +25,8 @@ for doc in documents:
     ingest_document(
         pdf_path=doc["path"],
         company=doc["company"],
-        year=doc["year"]
+        year=doc["year"],
+        user_id= 1
     )
 
 print("\nAll documents ingested successfully.")

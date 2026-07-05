@@ -68,9 +68,11 @@ def get_current_user(
             detail="Invalid token."
         )
 
-    user = db.query(User).filter(
-        User.email == email
-    ).first()
+    user: User | None = (
+        db.query(User)
+        .filter(User.email == email)
+        .first()
+    )
 
     if not user:
 

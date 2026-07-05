@@ -224,3 +224,64 @@ useAuth()
 - [ ] Background task queue.
 
 ---
+
+# 🧹 Cleanup / Tomorrow Backlog
+
+## Highest Priority
+
+- [ ] Finish upload pipeline.
+- [ ] Call `extract_kpis()` after ingestion.
+- [ ] Automatically save extracted metrics.
+- [ ] Accept company and year dynamically from frontend.
+- [ ] Redirect to dashboard after successful upload.
+
+---
+
+## Dashboard
+
+- [ ] Show `N/A` instead of `NOT_FOUND`.
+- [ ] Calculate Operating Margin from extracted values.
+- [ ] Improve KPI formatting.
+- [ ] Dynamic AI Summary.
+
+---
+
+## Comparison
+
+- [ ] Connect comparison page to real backend.
+- [ ] Risk score visualization.
+- [ ] Green/red highlighting.
+- [ ] Better comparison table.
+- [ ] Add charts.
+
+---
+
+## Chat
+
+- [ ] Friendlier assistant personality.
+- [ ] Markdown rendering.
+- [ ] Suggested prompts.
+- [ ] Typing animation.
+- [ ] Auto-scroll.
+
+---
+
+## Upload UI
+
+- [ ] Upload page.
+- [ ] Company selector.
+- [ ] Year selector.
+- [ ] Progress indicator.
+- [ ] Success notification.
+
+---
+
+## Final Polish
+
+- [ ] Loading skeletons.
+- [ ] Responsive improvements.
+- [ ] Active sidebar.
+- [ ] Better error handling.
+- [ ] Toast notifications.
+
+---

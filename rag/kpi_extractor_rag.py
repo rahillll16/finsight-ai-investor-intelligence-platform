@@ -30,6 +30,7 @@ def extract_kpis(company: str, user_id: int) -> dict:
         # print(f"Extracting {metric}...")
         
         answer = extract_metric(
+            metric=metric,
             question=question,
             company=company,
             user_id=user_id

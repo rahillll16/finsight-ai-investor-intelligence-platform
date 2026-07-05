@@ -1593,3 +1593,244 @@ Overall MVP               ████████░░ 82%
 ```
 
 ---
+
+
+# Day 8
+
+---
+
+# ✅ Major Accomplishments
+
+## 1. KPI Extraction Pipeline Improved
+
+Today was mainly focused on improving the reliability of KPI extraction.
+
+### Improvements
+
+- Replaced `SemanticChunker` with `RecursiveCharacterTextSplitter`.
+- Re-ingested all annual reports.
+- Regenerated Chroma vector database.
+- Re-ran KPI extraction for all companies.
+- Improved retrieval quality significantly.
+
+### Result
+
+Before:
+
+```text
+Revenue -> NOT_FOUND
+Net Income -> NOT_FOUND
+Cash Flow -> NOT_FOUND
+```
+
+After:
+
+```text
+Tesla
+✔ Net Income
+✔ Cash Flow
+
+Apple
+✔ Net Income
+✔ Cash Flow
+✔ Debt
+✔ R&D Expense
+
+Microsoft
+✔ Revenue
+✔ Net Income
+✔ Cash Flow
+✔ Debt
+✔ R&D Expense
+```
+
+Extraction quality improved considerably after changing the chunking strategy.
+
+---
+
+# 2. KPI Extraction Prompt Improvements
+
+Improved extraction prompt to:
+
+- Focus on table extraction.
+- Preserve units and currencies.
+- Ignore explanations.
+- Return only values.
+- Return `NOT_FOUND` only when truly unavailable.
+
+Also introduced metric-specific extraction instructions for:
+
+- Revenue
+- Net Income
+- Cash Flow
+- Debt
+- R&D Expense
+
+---
+
+# 3. Retrieval Debugging
+
+Performed extensive debugging by printing retrieved chunks.
+
+Verified:
+
+- Hybrid Retriever working correctly.
+- Query Expansion working.
+- Reranker working.
+- Chroma retrieval working.
+
+Identified that remaining failures are mostly due to report formatting rather than system architecture.
+
+---
+
+# 4. Architecture Decision
+
+Decided **not** to use regex-based metric extraction.
+
+Reason:
+
+- Too fragile.
+- Different companies format tables differently.
+- LLM extraction is much more reliable for annual reports.
+
+Final architecture:
+
+```text
+Hybrid Retrieval
+        ↓
+Reranker
+        ↓
+LLM Extraction
+        ↓
+Financial Metrics
+```
+
+---
+
+# 5. Upload Module Started
+
+Created new upload backend.
+
+Implemented:
+
+```text
+POST /upload
+```
+
+Completed:
+
+- Authentication
+- File upload
+- PDF validation
+- File saving
+- Upload directory creation
+
+Current flow:
+
+```text
+User
+    ↓
+Authenticated
+    ↓
+Upload PDF
+    ↓
+Save into data/raw_pdfs
+```
+
+Successfully tested upload endpoint.
+
+---
+
+# 6. Upload + Ingestion Integration
+
+Integrated upload route with:
+
+```python
+ingest_document()
+```
+
+Current pipeline:
+
+```text
+Upload
+    ↓
+Save PDF
+    ↓
+ingest_document()
+```
+
+Successfully connected ingestion with authenticated users.
+
+---
+
+# 7. SQLAlchemy Typing Investigation
+
+Investigated Pylance warnings related to:
+
+```text
+Column[int]
+```
+
+Confirmed:
+
+- Runtime works correctly.
+- Issue only affects static type checking.
+- No functional backend issue.
+
+---
+
+# 🧠 Key Learnings
+
+## Retrieval > Prompt Engineering
+
+Today's biggest takeaway:
+
+Improving retrieval quality has a much larger impact than endlessly tweaking prompts.
+
+---
+
+## Annual Reports
+
+Annual reports are highly structured documents.
+
+Simple semantic chunking is not ideal.
+
+Recursive chunking with overlap produces significantly better retrieval.
+
+---
+
+## Incremental Development
+
+Built upload pipeline in isolated steps:
+
+```text
+Authentication
+        ↓
+Upload
+        ↓
+Save File
+        ↓
+Ingestion
+```
+
+This made debugging straightforward.
+
+---
+
+# 📌 Current Project Status
+
+```text
+Authentication            ██████████ 100%
+Dashboard                 █████████░ 92%
+Chat                      █████████░ 90%
+Hybrid Retrieval          ██████████ 100%
+Reranker                  ██████████ 100%
+KPI Extraction            ████████░░ 85%
+Comparison                ███████░░░ 75%
+Upload Module             ████░░░░░░ 40%
+Overall MVP               █████████░ 88%
+```
+
+---
+
+
