@@ -7,6 +7,7 @@ from database.user import User
 from database.db import SessionLocal
 from database.metrics import FinancialMetric
 
+
 router = APIRouter(
     prefix="/comparison",
     tags=["Comparison"]
