@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Comparison from "./pages/Comparison";
 import Chat from "./pages/Chat";
 import Landing from "./pages/Landing";
+import Upload from "./pages/Upload";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import GuestRoute from "./components/GuestRoute";
@@ -68,6 +69,11 @@ function App() {
                       <Chat />
                   </ProtectedRoute>
               }
+          />
+
+          <Route
+                path="/upload"
+                element={<Upload />}
           />
       
       </Routes>

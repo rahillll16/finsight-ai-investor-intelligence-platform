@@ -1,4 +1,4 @@
-function DeepDive() {
+function DeepDive({ insights }) {
 
     return (
 
@@ -9,7 +9,7 @@ function DeepDive() {
             gap-6
         ">
 
-            {/* Growth Drivers */}
+            {/* Strengths */}
 
             <div className="
                 rounded-3xl
@@ -25,7 +25,7 @@ function DeepDive() {
                     text-green-400
                 ">
 
-                    Growth Drivers
+                    Strengths
 
                 </h2>
 
@@ -35,15 +35,27 @@ function DeepDive() {
                     text-slate-300
                 ">
 
-                    <li>
-                        • No AI insights available yet.
-                    </li>
+                    {
+
+                        insights?.strengths?.map(
+                            (item, index) => (
+
+                                <li key={index}>
+
+                                    ✅ {item}
+
+                                </li>
+
+                            )
+                        )
+
+                    }
 
                 </ul>
 
             </div>
 
-            {/* Risk Factors */}
+            {/* Risks */}
 
             <div className="
                 rounded-3xl
@@ -59,7 +71,7 @@ function DeepDive() {
                     text-red-400
                 ">
 
-                    Risk Factors
+                    Risks
 
                 </h2>
 
@@ -69,9 +81,21 @@ function DeepDive() {
                     text-slate-300
                 ">
 
-                    <li>
-                        • No AI insights available yet.
-                    </li>
+                    {
+
+                        insights?.risks?.map(
+                            (item, index) => (
+
+                                <li key={index}>
+
+                                    ⚠️ {item}
+
+                                </li>
+
+                            )
+                        )
+
+                    }
 
                 </ul>
 
@@ -80,6 +104,7 @@ function DeepDive() {
         </div>
 
     )
+
 }
 
-export default DeepDive
+export default DeepDive;

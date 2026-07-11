@@ -26,22 +26,27 @@ function Sidebar() {
 
             {/* Upload Button */}
 
-            <button className="
-                mt-8
-                w-full
-                rounded-xl
-                bg-orange-600
-                p-4
-                font-medium
-                hover:bg-orange-700
-                hover:shadow-lg
-                hover:shadow-orange-500/30
-                hover:scale-[1.02]
-                transition-all
-                duration-300
-            ">
-                Upload Report
-            </button>
+            <Link
+                to="/upload"
+                className="
+                    mt-8
+                    w-full
+                    rounded-xl
+                    bg-orange-600
+                    p-4
+                    font-medium
+                    text-center
+                    hover:bg-orange-700
+                    hover:shadow-lg
+                    hover:shadow-orange-500/30
+                    hover:scale-[1.02]
+                    transition-all
+                    duration-300
+                    block
+                "
+            >
+                ⬆️ Upload Report
+            </Link>
 
             {/* Navigation */}
 
@@ -49,7 +54,7 @@ function Sidebar() {
                 mt-10
                 flex
                 flex-col
-                gap-3
+                gap-2
             ">
 
                 <Link
@@ -71,7 +76,8 @@ function Sidebar() {
                     className="
                         rounded-xl
                         p-4
-                        hover:bg-slate-800
+                        hover:bg-orange-500/10
+                        hover:text-orange-400
                         transition-all
                         duration-300
                     "
@@ -84,7 +90,8 @@ function Sidebar() {
                     className="
                         rounded-xl
                         p-4
-                        hover:bg-slate-800
+                        hover:bg-orange-500/10
+                        hover:text-orange-400
                         transition-all
                         duration-300
                     "

@@ -4,7 +4,7 @@ import api from "../api/axios";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 
-import KPICard from "../components/dashboard/KPICard";
+import KPIGrid from "../components/dashboard/KPIGrid";
 
 import AISummary from "../components/dashboard/AISummary";
 
@@ -19,6 +19,8 @@ function Dashboard() {
     const [companies, setCompanies] = useState([]);
 
     const [loading, setLoading] = useState(true);
+
+    const [insights, setInsights] = useState(null);
 
     const [error, setError] = useState("");
 
@@ -72,11 +74,13 @@ function Dashboard() {
 
             setLoading(true);
 
-            const response = await api.get(
-                `/dashboard/${company}`
-            );
-
-            setMetrics(response.data);
+            const [dashboardResponse, insightsResponse] = await Promise.all([
+                api.get(`/dashboard/${company}`),
+                api.get(`/dashboard/${company}/insights`)
+            ]);
+            
+            setMetrics(dashboardResponse.data);
+            setInsights(insightsResponse.data);
 
         } catch (error) {
 
@@ -173,49 +177,17 @@ function Dashboard() {
 
             {/* KPI Grid */}
 
-            <div className="
-                grid
-                grid-cols-3
-                gap-6
-            ">
-
-                <KPICard
-                    title="Revenue"
-                    value={metrics?.revenue}
-                />
-
-                <KPICard
-                    title="Net Income"
-                    value={metrics?.net_income}
-                />
-
-                <KPICard
-                    title="Cash Flow"
-                    value={metrics?.cash_flow}
-                />
-
-                <KPICard
-                    title="Debt"
-                    value={metrics?.debt}
-                />
-
-                <KPICard
-                    title="Operating Margin"
-                    value={metrics?.operating_margin}
-                />
-
-                <KPICard
-                    title="R&D Expense"
-                    value={metrics?.r_and_d_expense}
-                />
-
-            </div>
+            <KPIGrid metrics={metrics} />
 
             <div className="mt-8">
 
-                <AISummary />
+                <AISummary
+                    insights={insights}
+                />
 
-                <DeepDive />
+                <DeepDive
+                    insights={insights}
+                />
 
             </div>
 

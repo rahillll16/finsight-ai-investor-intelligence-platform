@@ -4,6 +4,9 @@ import api from "../api/axios";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 
+import ComparisonCard from "../components/comparison/ComparisonCard";
+import MetricComparisonCard from "../components/comparison/MetricComparisonCard";
+
 function Comparison() {
 
     const [companies, setCompanies] = useState([]);
@@ -106,97 +109,155 @@ function Comparison() {
             </div>
 
 
-            {/* Selectors */}
+            {/* Comparison Controls */}
 
-            <div className="
-                mt-8
-                grid
-                grid-cols-3
-                gap-6
-            ">
+            <div
+                className="
+                    mt-8
+                    rounded-3xl
+                    border
+                    border-slate-800
+                    bg-slate-900
+                    p-8
+                "
+            >
 
-                <select
-                    value={company1}
-                    onChange={(e) =>
-                        setCompany1(e.target.value)
-                    }
+                <div
                     className="
-                        rounded-xl
-                        border
-                        border-orange-900/40
-                        bg-slate-900
-                        p-4
+                        grid
+                        grid-cols-3
+                        gap-6
+                        items-center
                     "
                 >
 
-                    <option value="">
-                        Select Company 1
-                    </option>
+                    {/* Company 1 */}
 
-                    {
-                        companies.map(company => (
+                    <select
+                        value={company1}
+                        onChange={(e) =>
+                            setCompany1(e.target.value)
+                        }
+                        className="
+                            rounded-2xl
+                            border
+                            border-slate-700
+                            bg-slate-800
+                            p-4
+                            text-white
+                            outline-none
+                            transition-all
+                            hover:border-orange-500
+                            focus:border-orange-500
+                        "
+                    >
 
-                            <option
-                                key={company}
-                                value={company}
-                            >
+                        <option value="">
+                            Select Company
+                        </option>
 
-                                {company}
+                        {
+                            companies.map(company => (
 
-                            </option>
-                        ))
-                    }
+                                <option
+                                    key={company}
+                                    value={company}
+                                >
+                                    {company}
+                                </option>
 
-                </select>
+                            ))
+                        }
 
+                    </select>
 
-                <select
-                    value={company2}
-                    onChange={(e) =>
-                        setCompany2(e.target.value)
-                    }
-                    className="
-                        rounded-xl
-                        border
-                        border-orange-900/40
-                        bg-slate-900
-                        p-4
-                    "
-                >
+                    {/* VS */}
 
-                    <option value="">
-                        Select Company 2
-                    </option>
+                    <div
+                        className="
+                            flex
+                            justify-center
+                        "
+                    >
 
-                    {
-                        companies.map(company => (
+                        <div
+                            className="
+                                rounded-full
+                                bg-orange-500/20
+                                px-6
+                                py-3
+                                text-xl
+                                font-bold
+                                text-orange-400
+                            "
+                        >
 
-                            <option
-                                key={company}
-                                value={company}
-                            >
+                            VS
 
-                                {company}
+                        </div>
 
-                            </option>
-                        ))
-                    }
+                    </div>
 
-                </select>
+                    {/* Company 2 */}
 
+                    <select
+                        value={company2}
+                        onChange={(e) =>
+                            setCompany2(e.target.value)
+                        }
+                        className="
+                            rounded-2xl
+                            border
+                            border-slate-700
+                            bg-slate-800
+                            p-4
+                            text-white
+                            outline-none
+                            transition-all
+                            hover:border-orange-500
+                            focus:border-orange-500
+                        "
+                    >
+
+                        <option value="">
+                            Select Company
+                        </option>
+
+                        {
+                            companies.map(company => (
+
+                                <option
+                                    key={company}
+                                    value={company}
+                                >
+                                    {company}
+                                </option>
+
+                            ))
+                        }
+
+                    </select>
+
+                </div>
 
                 <button
                     onClick={handleCompare}
                     className="
-                        rounded-xl
+                        mt-8
+                        w-full
+                        rounded-2xl
                         bg-orange-600
                         p-4
+                        text-lg
                         font-semibold
+                        transition-all
                         hover:bg-orange-700
+                        hover:shadow-lg
+                        hover:shadow-orange-500/20
                     "
                 >
 
-                    Compare
+                    Compare Companies
 
                 </button>
 
@@ -231,89 +292,46 @@ function Comparison() {
             {
                 comparisonData && (
 
-                    <div className="
-                        mt-10
-                        overflow-x-auto
-                    ">
+                    <div
+                        className="
+                            mt-10
+                            space-y-6
+                        "
+                    >
 
-                        <table className="
-                            w-full
-                            rounded-3xl
-                            bg-slate-900
-                        ">
+                        {
 
-                            <thead>
+                            Object.keys(
+                                comparisonData[company1]
+                            ).map(metric => (
 
-                                <tr className="
-                                    border-b
-                                    border-slate-800
-                                ">
+                                <MetricComparisonCard
 
-                                    <th className="p-4">
-                                        Metric
-                                    </th>
+                                    key={metric}
 
-                                    <th className="p-4">
-                                        {company1}
-                                    </th>
+                                    title={metric}
 
-                                    <th className="p-4">
-                                        {company2}
-                                    </th>
+                                    company1={company1}
 
-                                </tr>
+                                    company2={company2}
 
-                            </thead>
+                                    value1={
+                                        comparisonData[
+                                            company1
+                                        ][metric]
+                                    }
 
-                            <tbody>
+                                    value2={
+                                        comparisonData[
+                                            company2
+                                        ][metric]
+                                    }
 
-                                {
-                                    Object.keys(
-                                        comparisonData[company1]
-                                    ).map(metric => (
+                                />
 
-                                        <tr
-                                            key={metric}
-                                            className="
-                                                border-b
-                                                border-slate-800
-                                            "
-                                        >
+                            ))
 
-                                            <td className="p-4">
-
-                                                {metric}
-
-                                            </td>
-
-                                            <td className="p-4">
-
-                                                {
-                                                    comparisonData[
-                                                        company1
-                                                    ][metric]
-                                                }
-
-                                            </td>
-
-                                            <td className="p-4">
-
-                                                {
-                                                    comparisonData[
-                                                        company2
-                                                    ][metric]
-                                                }
-
-                                            </td>
-
-                                        </tr>
-
-                                    ))
-                                }
-
-                            </tbody>
-
-                        </table>
+                        }
 
                     </div>
 
