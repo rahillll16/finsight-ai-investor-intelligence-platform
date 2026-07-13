@@ -8,11 +8,13 @@ load_dotenv()
 
 api_key = SecretStr(os.environ["OPENAI_API_KEY"])
 
-def get_llm():
+def get_llm(
+    temperature: float = 0
+):
     
     return ChatOpenAI(
         model="gpt-4o-mini",
-        temperature=0,
+        temperature=temperature,
         api_key=api_key
     )
     

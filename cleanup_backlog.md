@@ -284,4 +284,71 @@ useAuth()
 - [ ] Better error handling.
 - [ ] Toast notifications.
 
+
+# Add DELETE REPORTS
+
+
+---
+
+
+# 🧹 Cleanup Backlog
+
+## Frontend
+
+- Remove old comparison table.
+- Remove temporary comparison bar UI.
+- Remove unused comparison components.
+- Remove unused imports.
+- Check console warnings.
+- Remove commented code.
+- Format files consistently.
+
+## Backend
+
+- Clean comparison helper utilities.
+- Organize AI prompts.
+- Standardize API responses.
+- Remove debug prints.
+- Improve error handling consistency.
+
+## General
+
+- Verify full Upload → Dashboard flow.
+- Check project folder cleanup.
+- Verify environment variables.
+- Review API naming consistency.
+
+---
+
+
+# 🧹 Cleanup Backlog
+
+## Comparison
+
+- Improve Recommendation Card typography.
+- Increase recommendation badge prominence.
+- Add loading animation while AI generates comparison.
+- Replace loading text with professional loading card.
+
+---
+
+## Chat
+
+- Implement AI chat backend.
+- Add typing indicator.
+- Auto-scroll to latest message.
+- Support Enter to send messages.
+- Improve error handling.
+- Add markdown rendering for AI responses.
+
+---
+
+## General
+
+- Remove unused comparison components if no longer needed.
+- Remove unused imports.
+- Review console warnings.
+- Final responsive testing.
+- Code formatting and cleanup.
+
 ---

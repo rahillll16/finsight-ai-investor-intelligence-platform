@@ -1,10 +1,20 @@
 import os
 import shutil
+import uuid
 from typing import cast
 from database.user import User
 
-from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
+from fastapi import (
+    APIRouter,
+    UploadFile,
+    File,
+    Depends,
+    HTTPException,
+    Form
+)
+
 from auth.oauth2 import get_current_user
+
 from database.user import User
 from ingestion.ingest_document import ingest_document
 
@@ -20,9 +30,29 @@ router = APIRouter(
 
 @router.post("/")
 async def upload_report(
+    company: str = Form(...),
+    year: int = Form(...),
     file: UploadFile = File(...),
     current_user: User = Depends(get_current_user)
 ):
+
+    if not company.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="Company name is required."
+        )
+
+    if year < 2000 or year > 2100:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid financial year."
+        )
+
+    if file.content_type != "application/pdf":
+        raise HTTPException(
+            status_code=400,
+            detail="Only PDF files are allowed."
+        )
 
     upload_dir = "data/raw_pdfs"
 
@@ -36,10 +66,17 @@ async def upload_report(
             status_code=400,
             detail="Filename is missing."
         )
+        
+    extension = os.path.splitext(file.filename)[1]
+    
+
+    filename = (
+        f"{company}_{year}_{uuid.uuid4().hex}{extension}"
+    )
 
     file_path = os.path.join(
         upload_dir,
-        file.filename
+        filename
     )
 
     with open(file_path, "wb") as buffer:
@@ -52,25 +89,27 @@ async def upload_report(
         
     result = ingest_document(
         pdf_path=file_path,
-        company="Tesla",
-        year=2024,
+        company=company,
+        year=year,
         user_id=user_id
     )
     
     metrics = extract_kpis(
-        company="Tesla",
+        company=company,
         user_id=user_id
     )
     
     save_metrics(
         metrics=metrics,
-        company="Tesla",
-        year=2024,
+        company=company,
+        year=year,
         user_id=user_id
     )
 
     return {
-        "message": "Report processed successfully.",
-        "company": "Tesla",
+        "message": "Report uploaded successfully.",
+        "company": company,
+        "year": year,
+        "chunks": result["chunks"],
         "metrics": metrics
     }

@@ -1,11 +1,14 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
+from typing import cast
 
 from auth.oauth2 import get_current_user
 from database.user import User
 
 from database.db import SessionLocal
 from database.metrics import FinancialMetric
+
+from rag.comparison_insights import generate_comparison_insights
 
 
 router = APIRouter(
@@ -69,3 +72,28 @@ def compare_companies(
             "operating_margin": metric2.operating_margin
         }
     }
+    
+    
+@router.get("/insights")
+def comparison_insights(
+
+    company1: str,
+
+    company2: str,
+
+    current_user: User = Depends(
+        get_current_user
+    )
+
+):
+    user_id = cast(int, current_user.id)
+
+    return generate_comparison_insights(
+
+        company1=company1,
+
+        company2=company2,
+
+        user_id=user_id
+
+    )

@@ -1834,3 +1834,259 @@ Overall MVP               █████████░ 88%
 ---
 
 
+# 📅 Day 6 Progress Report
+
+## ✅ Backend
+
+- Completed dynamic upload flow.
+- Removed hardcoded company and financial year from upload endpoint.
+- Upload API now accepts:
+  - Company
+  - Financial Year
+  - PDF
+- KPI extraction pipeline fully dynamic.
+- Dashboard endpoints finalized.
+- AI Insights endpoint working successfully.
+- Fixed typing issues and cleaned upload pipeline.
+
+---
+
+## ✅ Frontend
+
+### Upload Module
+
+- Redesigned Upload page.
+- Added Company input.
+- Added Financial Year input.
+- Added custom PDF upload component.
+- Connected frontend with backend upload API.
+- Improved styling and UX.
+
+### Dashboard
+
+Completed dashboard redesign.
+
+Implemented:
+
+- Dynamic company selector.
+- Reusable KPI Grid.
+- Reusable KPI Cards.
+- Color-coded KPI cards.
+- Lucide icons.
+- Hover animations.
+- AI Summary section.
+- Strengths section.
+- Risk Factors section.
+- Outlook badge.
+- Dynamic dashboard API integration.
+
+Dashboard is now completely data-driven.
+
+---
+
+## ✅ AI
+
+Dashboard AI now generates:
+
+- Executive Summary
+- Financial Strengths
+- Risk Factors
+- Overall Outlook
+
+Improved prompt quality and structured JSON output.
+
+---
+
+## ✅ Architecture Decisions
+
+Finalized Comparison module design.
+
+Decisions:
+
+- ❌ Removed comparison table approach.
+- ❌ Removed fake progress bars.
+- ✅ Green / Red metric indicators.
+- ✅ AI Investment Recommendation.
+- ✅ Recommendation Confidence.
+- ✅ Buy / Hold / Avoid style recommendation.
+- ✅ AI-first comparison experience.
+
+This will become the flagship feature of FinSight AI.
+
+---
+
+# 🚀 Tomorrow Plan
+
+## Comparison Backend
+
+- Build `comparison_service.py`
+- Create comparison prompt
+- Build `/comparison/insights`
+- Return:
+  - Winner
+  - Rating
+  - Recommendation Confidence
+  - Summary
+  - Reasons
+
+---
+
+## Comparison Frontend
+
+- Replace old comparison layout.
+- Build metric comparison cards.
+- Green / Red metric indicators.
+- AI Recommendation Card.
+- Confidence section.
+- Buy / Hold / Avoid badge.
+- AI comparison loading animation.
+
+---
+
+# 📊 Overall Progress
+
+| Module | Progress |
+|---------|---------:|
+| Authentication | ✅ 100% |
+| Upload Pipeline | ✅ 100% |
+| PDF Ingestion | ✅ 100% |
+| Hybrid RAG | ✅ 100% |
+| KPI Extraction | ✅ 100% |
+| Dashboard APIs | ✅ 100% |
+| Dashboard UI | ✅ 98% |
+| AI Dashboard Insights | ✅ 100% |
+| Comparison Backend | 🟡 30% |
+| Comparison Frontend | 🟡 20% |
+| AI Investment Recommendation | ⏳ 0% |
+| AI Chat | 🟡 70% |
+| Deployment | ⏳ 0% |
+
+**Overall Project Completion:** **~82%**
+
+---
+
+
+# 📅 Day 7 Progress Report
+
+## ✅ Backend
+
+### AI Comparison Module
+
+- Created `comparison_insights.py`.
+- Implemented AI-powered company comparison.
+- Added comparison prompt following the same architecture as `ai_insights.py`.
+- Reused existing `get_llm()` abstraction.
+- Queried financial metrics directly from the database.
+- Added deterministic confidence calculation based on metric completeness.
+- Cleaned and parsed structured JSON responses from the LLM.
+- Standardized recommendation output.
+
+### New Comparison API
+
+Implemented:
+
+- `GET /comparison`
+- `GET /comparison/insights`
+
+The comparison endpoint now returns:
+
+- Winner
+- Recommendation (Strong Buy / Buy / Hold / Avoid)
+- Confidence
+- AI Summary
+- Three supporting reasons
+
+---
+
+## ✅ Frontend
+
+### Comparison Page
+
+Completely redesigned comparison workflow.
+
+Implemented:
+
+- Improved comparison controls.
+- Better company selectors.
+- AI Recommendation Hero Card.
+- Recommendation badge.
+- Recommendation confidence.
+- AI-generated summary.
+- Supporting reasons.
+- Metric comparison cards.
+- Green / Red winner indicators.
+- Better metric naming using reusable mapping.
+- Improved spacing and layout consistency.
+- Better handling for unavailable financial metrics.
+
+Comparison module is now fully functional end-to-end.
+
+---
+
+### AI Chat UI
+
+Redesigned chat interface.
+
+Implemented:
+
+- Hero header card.
+- Company selector integration.
+- Fixed-height chat container.
+- Scrollable message area.
+- Fixed input section.
+- Improved chat bubble spacing.
+- Responsive chat bubbles (`w-fit` + `max-width`).
+- Better user/assistant message alignment.
+- Improved overall UI consistency.
+
+Backend integration remains unchanged.
+
+---
+
+## ✅ Architecture
+
+Maintained consistent project architecture.
+
+- Comparison AI module follows the same design pattern as `ai_insights.py`.
+- Reused existing LLM abstraction.
+- Reused existing database layer.
+- Reused response parsing pipeline.
+- No duplicate business logic introduced.
+
+---
+
+# 🚀 Tomorrow Plan
+
+## AI Chat Backend
+
+- Build chat retrieval pipeline.
+- Integrate Hybrid RAG.
+- Improve prompt engineering.
+- Support conversational financial Q&A.
+- Ground responses using uploaded reports only.
+- Return clean AI responses.
+- Connect frontend with new backend.
+- Final UI polish.
+
+---
+
+# 📊 Overall Project Progress
+
+| Module | Progress |
+|---------|---------:|
+| Authentication | ✅ 100% |
+| Upload Pipeline | ✅ 100% |
+| PDF Ingestion | ✅ 100% |
+| Hybrid RAG | ✅ 100% |
+| KPI Extraction | ✅ 100% |
+| Dashboard | ✅ 100% |
+| AI Dashboard Insights | ✅ 100% |
+| Comparison Module | ✅ 100% |
+| AI Investment Recommendation | ✅ 100% |
+| AI Chat Frontend | 🟡 85% |
+| AI Chat Backend | ⏳ 0% |
+| Deployment | ⏳ 0% |
+
+**Overall Project Completion:** **~90%**
+
+---

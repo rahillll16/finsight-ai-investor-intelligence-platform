@@ -1,11 +1,13 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
+from typing import cast
 
 from auth.oauth2 import get_current_user
 from database.user import User
 
 from database.db import SessionLocal
 from database.metrics import FinancialMetric
+from rag.ai_insights import generate_insights
 
 router = APIRouter(
     prefix="/dashboard",
@@ -36,6 +38,7 @@ def get_user_companies(
         company[0]
         for company in companies
     ]
+    
 
 @router.get("/{company}")
 def get_dashboard_data(
@@ -73,3 +76,17 @@ def get_dashboard_data(
         "operating_margin": metric.operating_margin,
         "r_and_d_expense": metric.r_and_d_expense
     }
+    
+
+@router.get("/{company}/insights")
+def get_ai_insights(
+    company: str,
+    current_user: User = Depends(get_current_user)
+):
+
+    user_id = cast(int, current_user.id)
+
+    return generate_insights(
+        company=company,
+        user_id=user_id
+    )

@@ -8,6 +8,22 @@ function MetricComparisonCard({
     value2
 }) {
 
+    const metricNames = {
+
+        revenue: "Revenue",
+    
+        net_income: "Net Income",
+    
+        cash_flow: "Cash Flow",
+    
+        debt: "Debt",
+    
+        operating_margin: "Operating Margin",
+    
+        r_and_d_expense: "R&D Expense"
+    
+    };
+
     const comparison = compareMetric(
         title,
         value1,
@@ -32,7 +48,7 @@ function MetricComparisonCard({
                 text-white
             ">
 
-                {title}
+                {metricNames[title] || title}
 
             </h2>
 
@@ -66,11 +82,31 @@ function MetricComparisonCard({
                         `}
                     >
 
-                        {value1}
+                        {
+                            value1 === "NOT_FOUND"
+
+                            ?
+
+                            <span className="text-slate-500">
+                                Data Unavailable
+                            </span>
+
+                            :
+
+                            value1
+                        }
 
                         {" "}
 
                         {
+
+                            value1 === "NOT_FOUND"
+
+                            ?
+
+                            ""
+
+                            :
 
                             comparison.winner === 1
 
@@ -111,6 +147,14 @@ function MetricComparisonCard({
 
                         {
 
+                            value2 === "NOT_FOUND"
+
+                            ?
+
+                            ""
+
+                            :
+
                             comparison.winner === 2
 
                             ?
@@ -125,7 +169,19 @@ function MetricComparisonCard({
 
                         {" "}
 
-                        {value2}
+                        {
+                            value2 === "NOT_FOUND"
+
+                            ?
+
+                            <span className="text-slate-500">
+                                Data Unavailable
+                            </span>
+
+                            :
+
+                            value2
+                        }
 
                     </p>
 

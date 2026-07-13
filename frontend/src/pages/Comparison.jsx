@@ -6,6 +6,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 
 import ComparisonCard from "../components/comparison/ComparisonCard";
 import MetricComparisonCard from "../components/comparison/MetricComparisonCard";
+import RecommendationCard from "../components/comparison/RecommendationCard";
 
 function Comparison() {
 
@@ -16,6 +17,8 @@ function Comparison() {
     const [company2, setCompany2] = useState("");
 
     const [comparisonData, setComparisonData] = useState(null);
+
+    const [comparisonInsights, setComparisonInsights] = useState(null);
 
     const [loading, setLoading] = useState(false);
 
@@ -70,6 +73,14 @@ function Comparison() {
 
             setComparisonData(
                 response.data
+            );
+
+            const insightsResponse = await api.get(
+                `/comparison/insights?company1=${company1}&company2=${company2}`
+            );
+            
+            setComparisonInsights(
+                insightsResponse.data
             );
 
         } catch (error) {
@@ -298,6 +309,17 @@ function Comparison() {
                             space-y-6
                         "
                     >
+                        {
+                            comparisonInsights && (
+
+                                <RecommendationCard
+
+                                    insights={comparisonInsights}
+
+                                />
+
+                            )
+                        }
 
                         {
 
