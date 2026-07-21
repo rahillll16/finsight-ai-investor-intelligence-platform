@@ -7,6 +7,8 @@ import {
     FlaskConical
 } from "lucide-react";
 
+import formatFinancialValue from "../../utils/formatFinancialValue";
+
 const KPI_CONFIG = {
     "Revenue": {
         icon: DollarSign,
@@ -134,17 +136,18 @@ function KPICard({
             {/* Value */}
 
             <h2
-                className="
+                className={`
                     mt-8
-                    text-3xl
-                    font-bold
-                    text-white
                     break-words
-                "
+                    font-bold
+                    ${
+                        formatFinancialValue(value) === "Data Unavailable"
+                            ? "text-xl text-slate-400"
+                            : "text-3xl text-white"
+                    }
+                `}
             >
-
-                {value || "N/A"}
-
+                {formatFinancialValue(value)}
             </h2>
 
             {/* Subtitle */}

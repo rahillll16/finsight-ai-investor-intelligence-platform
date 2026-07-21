@@ -95,6 +95,52 @@ function Dashboard() {
         }
     }
 
+    async function handleDeleteReport() {
+
+        if (!metrics) return;
+    
+        const confirmed = window.confirm(
+            `Are you sure you want to delete ${company} (${metrics.year})?`
+        );
+    
+        if (!confirmed) return;
+    
+        try {
+    
+            await api.delete(
+                `/reports/${company}/${metrics.year}`
+            );
+    
+            alert("Report deleted successfully.");
+    
+            const response = await api.get(
+                "/dashboard/companies/list"
+            );
+    
+            const updatedCompanies = response.data;
+    
+            setCompanies(updatedCompanies);
+    
+            if (updatedCompanies.length > 0) {
+    
+                setCompany(updatedCompanies[0]);
+    
+            } else {
+    
+                setCompany("");
+                setMetrics(null);
+                setInsights(null);
+            }
+    
+        } catch (error) {
+    
+            alert(
+                error.response?.data?.detail ||
+                "Failed to delete report."
+            );
+        }
+    }
+
 
     if (loading) {
 
@@ -132,7 +178,7 @@ function Dashboard() {
 
             {/* Company Selector */}
 
-            <div className="mb-8">
+            <div className="mb-8 flex items-center gap-4">
 
                 <select
                     value={company}
@@ -162,15 +208,29 @@ function Dashboard() {
                                 key={company}
                                 value={company}
                             >
-
                                 {company}
-
                             </option>
 
                         ))
                     }
 
                 </select>
+
+                <button
+                    onClick={handleDeleteReport}
+                    className="
+                        px-4
+                        py-3
+                        rounded-xl
+                        bg-red-600
+                        hover:bg-red-700
+                        transition-colors
+                        duration-300
+                        text-white
+                    "
+                >
+                    🗑 Delete Report
+                </button>
 
             </div>
 

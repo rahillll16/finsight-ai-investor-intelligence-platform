@@ -37,7 +37,8 @@ def chat_with_document(
     answer = ask_question(
         question=request.question,
         company=request.company,
-        user_id=cast(int, current_user.id)
+        user_id=cast(int, current_user.id),
+        history=request.history
     )
 
     return {

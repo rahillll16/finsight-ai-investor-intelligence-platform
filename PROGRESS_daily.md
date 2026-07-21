@@ -2090,3 +2090,116 @@ Maintained consistent project architecture.
 **Overall Project Completion:** **~90%**
 
 ---
+# 📅 Daily Progress - FinSight AI
+
+**Date:** 21 July 2026
+
+---
+
+## 🚀 Features Implemented
+
+### 🗑️ Report Deletion Workflow
+- Added complete report deletion functionality.
+- Created dedicated `reports` route for report management.
+- Implemented secure deletion using authenticated `user_id`.
+- Added deletion of uploaded PDF from local storage.
+- Added deletion of corresponding ChromaDB embeddings.
+- Added deletion of extracted financial metrics from PostgreSQL.
+- Integrated report deletion with the dashboard.
+
+---
+
+## 🔧 Backend Improvements
+
+### Report Management
+- Created `routes/report.py`.
+- Added `DELETE /reports/{company}/{year}` endpoint.
+- Restricted deletion to the authenticated user's reports only.
+
+### Database
+- Added `delete_metrics()` utility.
+- Removed metrics using:
+  - Company
+  - Year
+  - User ID
+
+### Vector Database
+- Added `delete_vectors()` utility.
+- Fixed ChromaDB delete filter by using `$and` metadata operator.
+
+### File Storage
+- Added `delete_pdf()` utility.
+- Updated uploaded file naming convention to:
+
+```text
+userId_company_year_uuid.pdf
+```
+
+This prevents accidental deletion of another user's uploaded reports.
+
+---
+
+## 🎨 Frontend Improvements
+
+- Connected dashboard with Delete Report API.
+- Added Delete Report button.
+- Added confirmation before deletion.
+- Automatically refreshed company list after deletion.
+- Cleared dashboard state when the last report was removed.
+
+---
+
+## 🐞 Bugs Fixed
+
+- Fixed filename generation (`..pdf` extension issue).
+- Fixed `user_id` initialization order.
+- Fixed ChromaDB metadata delete filter.
+- Fixed dashboard refresh after deletion.
+- Fixed backend/frontend route integration.
+
+---
+
+# 📈 Current Project Status
+
+| Module | Status |
+|---------|--------|
+| Authentication | ✅ |
+| Upload Reports | ✅ |
+| PDF Processing | ✅ |
+| Semantic Chunking | ✅ |
+| ChromaDB Integration | ✅ |
+| KPI Extraction | ✅ |
+| Dashboard | ✅ |
+| AI Insights | ✅ |
+| AI Financial Chat | ✅ |
+| Company Comparison | ✅ |
+| Report Deletion | ✅ |
+
+---
+
+# 🎯 Next Steps
+
+- Polish UI/UX
+- Add toast notifications
+- Add confirmation modal
+- Final testing
+- Deploy backend and frontend
+- Prepare README and demo video
+
+---
+
+## 📊 Overall Progress
+
+**Project Completion:** **~95%**
+
+The application now supports the complete financial report lifecycle:
+
+- Upload
+- Process
+- Extract KPIs
+- Analyze
+- Chat
+- Compare
+- Delete
+
+The remaining work is primarily focused on UI polish, deployment, and final testing.

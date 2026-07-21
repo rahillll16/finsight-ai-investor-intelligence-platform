@@ -25,13 +25,13 @@ def extract_metric(
         query=expanded_query,
         company=company,
         user_id=user_id,
-        top_k=6
+        top_k=10
     )
 
     documents = reranker.rerank(
         query=expanded_query,
         documents=documents,
-        top_k=2
+        top_k=4
     )
 
     if not documents:
@@ -47,7 +47,16 @@ def extract_metric(
     #     print(f"\nChunk {i+1}")
     #     print(doc[:800])
 
-    context = "\n\n".join(documents)
+    context = ""
+
+    for i, doc in enumerate(documents, start=1):
+
+        context += f"""
+    Chunk {i}
+
+    {doc}
+
+    """
     
     # value = parse_metric(context)
     
@@ -78,18 +87,59 @@ You are an expert financial data extraction system.
 
 Your job is to extract ONE financial metric from an annual report.
 
+Always look for page notes such as
+
+"Amounts in millions"
+
+or
+
+"Dollar amounts in millions"
+
+before extracting the value.
+
 {instruction}
 
 Rules:
 
-1. Search both tables and paragraphs.
-2. Extract ONLY the 2024 value.
-3. If multiple years appear, always return the 2024 value.
-4. Preserve $, %, million and billion or any other currency indicator.
-5. Return ONLY the value.
-6. Do NOT explain.
-7. Do NOT calculate.
-8. Return NOT_FOUND only if the metric truly does not exist anywhere in the context.
+1. Search every retrieved chunk carefully.
+
+2. Financial statements often specify units such as:
+   - Amounts in millions
+   - Amounts in billions
+   - USD millions
+   - INR crores
+
+3. If the value is shown as:
+
+97,690
+
+and another chunk specifies:
+
+Amounts in millions
+
+return
+
+$97,690 million
+
+NOT
+
+97,690
+
+4. Preserve:
+- $
+- %
+- million
+- billion
+- crore
+- lakh
+
+5. Return ONLY the extracted value.
+
+6. Never calculate.
+
+7. Never explain.
+
+8. Return NOT_FOUND only if the metric truly does not exist.
 
 Context:
 {context}

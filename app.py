@@ -9,6 +9,7 @@ from routes.comparison import router as comparison_router
 from routes.auth import router as auth_router
 from routes.chat import router as chat_router
 from routes.upload import router as upload_router
+from routes.report import router as report_router
 
 load_dotenv()
 
@@ -34,6 +35,7 @@ app.include_router(health_router)
 app.include_router(dashboard_router)
 app.include_router(comparison_router)
 app.include_router(auth_router)
+app.include_router(report_router)
 
 @app.get("/")
 def root():

@@ -69,9 +69,14 @@ async def upload_report(
         
     extension = os.path.splitext(file.filename)[1]
     
+    
+    user_id = cast(int, current_user.id)
+    
 
     filename = (
-        f"{company}_{year}_{uuid.uuid4().hex}{extension}"
+
+        f"{user_id}_{company}_{year}_{uuid.uuid4().hex}{extension}"
+
     )
 
     file_path = os.path.join(
@@ -85,7 +90,6 @@ async def upload_report(
             buffer
         )
         
-    user_id = cast(int, current_user.id)
         
     result = ingest_document(
         pdf_path=file_path,

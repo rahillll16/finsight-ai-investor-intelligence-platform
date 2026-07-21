@@ -352,3 +352,33 @@ useAuth()
 - Code formatting and cleanup.
 
 ---
+
+# 🧹 Cleanup Backlog
+
+## High Priority
+
+- [ ] Replace browser alerts with toast notifications.
+- [ ] Replace `window.confirm()` with a custom confirmation modal.
+- [ ] Add loading state while deleting reports.
+- [ ] Add empty dashboard state when no reports exist.
+- [ ] Improve API error messages.
+
+---
+
+## Medium Priority
+
+- [ ] Remove unused imports.
+- [ ] Improve code comments and documentation.
+- [ ] Standardize API response format.
+- [ ] Improve responsive layout.
+
+---
+
+## Low Priority
+
+- [ ] Add upload timestamps.
+- [ ] Improve dashboard animations.
+- [ ] Improve spacing consistency.
+- [ ] Add report statistics.
+
+---

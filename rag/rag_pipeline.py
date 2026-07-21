@@ -12,8 +12,15 @@ reranker = Reranker()
 def ask_question(
     question: str,
     company: str | None = None,
-    user_id: int | None = None
+    user_id: int | None = None,
+    history: list | None = None
 ) -> str:
+    
+    history_text = ""
+
+    if history:
+        for msg in history[-6:]:  # Last 6 messages
+            history_text += f"{msg.role.title()}: {msg.content}\n"
     
     expanded_query = expand_query(question)
 
@@ -32,49 +39,77 @@ def ask_question(
     documents = reranker.rerank(
         query=expanded_query,
         documents=documents,
-        top_k=3
+        top_k=5
     )
 
     if not documents:
         return "No relevant information found."
 
-    context = "\n\n".join(documents)
+    context = ""
+
+    for i, doc in enumerate(documents, start=1):
+        context += f"Document {i}:\n{doc}\n\n"
 
     prompt = prompt = f"""
-You are FinSight AI, an intelligent financial assistant.
+You are FinSight AI,
+an AI-powered financial intelligence assistant.
 
-Your personality:
-- Be friendly and professional.
-- Greet naturally when appropriate.
-- Respond conversationally while remaining concise.
-- Sound like an experienced financial analyst helping an investor.
+Your job is to help users understand annual reports,
+financial statements,
+business performance,
+risks,
+cash flow,
+profitability,
+debt,
+growth,
+and other financial metrics.
 
-Examples:
+You MUST answer ONLY using the retrieved context.
 
-User: Hi
-Assistant:
-Hello! I'm FinSight AI. How can I help you analyze company financials today?
+Never use outside knowledge.
 
-User: Thanks
-Assistant:
-You're welcome! Feel free to ask about revenues, profitability, risks, debt, or compare companies.
+If the answer cannot be found in the provided context, say:
 
-Rules:
+"I couldn't find this information in the uploaded financial reports."
 
-1. Answer ONLY from the provided context.
-2. Never fabricate information.
-3. If information is unavailable, say:
-   "I couldn't find this information in the uploaded documents."
-4. Preserve exact numerical values.
-5. Briefly explain why the information matters when relevant.
+When answering:
 
-Context:
+• Be concise.
+• Preserve every numerical value exactly.
+• Use bullet points whenever appropriate.
+• Explain why a financial metric matters.
+• Never speculate.
+• Never invent numbers.
+• Never mention that you are an AI language model.
+
+If the user greets you,
+respond naturally.
+
+If the user asks a non-financial question,
+politely explain that FinSight AI is designed for financial document analysis.
+
+Return only the answer.
+
+Conversation History:
+
+{history_text}
+
+Retrieved Financial Context:
+
 {context}
 
-Question:
+Current Question:
+
 {question}
 
-Answer:
+Answer in Markdown.
+
+Use:
+
+- Bullet points when listing facts.
+- Short paragraphs.
+- Preserve numerical values exactly.
+- If appropriate, end with one sentence explaining why this matters to investors.
 """
 
     llm = get_llm()

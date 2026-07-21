@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState , useRef} from "react";
+
+import ReactMarkdown from "react-markdown";
 
 import api from "../api/axios";
 
@@ -16,6 +18,8 @@ function Chat() {
 
     const [loading, setLoading] = useState(false);
 
+    const messagesEndRef = useRef(null);
+
 
 
     useEffect(() => {
@@ -23,6 +27,14 @@ function Chat() {
         fetchCompanies();
     
     }, []);
+
+    useEffect(() => {
+
+        messagesEndRef.current?.scrollIntoView({
+            behavior: "smooth"
+        });
+    
+    }, [messages]);
     
     async function fetchCompanies() {
     
@@ -70,7 +82,8 @@ function Chat() {
                 "/chat",
                 {
                     company,
-                    question
+                    question,
+                    history: messages
                 }
             );
     
@@ -196,6 +209,50 @@ function Chat() {
                 {/* Messages */}
 
                 {
+                    messages.length === 0 && (
+
+                        <div
+                            className="
+                                h-full
+                                flex
+                                flex-col
+                                items-center
+                                justify-center
+                                text-center
+                                text-slate-400
+                            "
+                        >
+
+                            <div className="text-6xl">
+                                🤖
+                            </div>
+
+                            <h2 className="mt-4 text-xl font-semibold text-white">
+                                FinSight AI
+                            </h2>
+
+                            <p className="mt-2 max-w-md">
+                                Ask anything about your uploaded annual reports.
+                            </p>
+
+                            <div className="mt-6 space-y-2 text-sm">
+
+                                <p>• Summarize Apple's financial performance</p>
+
+                                <p>• What are Apple's biggest risks?</p>
+
+                                <p>• Explain operating cash flow</p>
+
+                                <p>• Compare Apple and Tesla</p>
+
+                            </div>
+
+                        </div>
+
+                    )
+                }
+
+                {
                     messages.map((message, index) => (
 
                         <div
@@ -230,7 +287,11 @@ function Chat() {
                                 `}
                             >
 
-                                {message.content}
+                                <ReactMarkdown>
+
+                                    {message.content}
+
+                                </ReactMarkdown>
 
                             </div>
 
@@ -238,6 +299,8 @@ function Chat() {
 
                     ))
                 }
+
+                <div ref={messagesEndRef} />
 
                 </div>
 
@@ -262,7 +325,17 @@ function Chat() {
                             onChange={(e) =>
                                 setQuestion(e.target.value)
                             }
-                            placeholder="Ask a financial question..."
+                            onKeyDown={(e) => {
+
+                                if (
+                                    e.key === "Enter" &&
+                                    !loading
+                                ) {
+                                    handleSend();
+                                }
+                        
+                            }}
+                            placeholder="Ask about revenue, debt, profitability, risks..."
                             className="
                                 flex-1
                                 rounded-2xl
@@ -278,7 +351,10 @@ function Chat() {
 
                         <button
                             onClick={handleSend}
-                            disabled={loading}
+                            disabled={
+                                loading ||
+                                !question.trim()
+                            }
                             className="
                                 rounded-2xl
                                 bg-orange-600
@@ -286,14 +362,36 @@ function Chat() {
                                 font-semibold
                                 transition-all
                                 hover:bg-orange-700
+                                disabled:opacity-50
+                                disabled:cursor-not-allowed
                             "
                         >
 
-                            {
-                                loading
-                                ? "Thinking..."
-                                : "Send"
-                            }
+                        {
+                            loading && (
+
+                                <div className="flex justify-start">
+
+                                    <div
+                                        className="
+                                            bg-slate-800
+                                            border
+                                            border-slate-700
+                                            rounded-2xl
+                                            px-5
+                                            py-4
+                                            animate-pulse
+                                        "
+                                    >
+
+                                        FinSight AI is analyzing...
+
+                                    </div>
+
+                                </div>
+
+                            )
+                        }
 
                         </button>
 
