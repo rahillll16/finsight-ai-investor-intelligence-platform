@@ -382,3 +382,36 @@ useAuth()
 - [ ] Add report statistics.
 
 ---
+
+# 🧹 Cleanup Backlog
+
+## Dashboard
+- Add interactive financial charts (Revenue, Net Income, Cash Flow, Debt).
+- Improve responsive layout for tablets and mobile devices.
+- Add smooth loading states for AI Chat and Company Comparison.
+- Add subtle page entrance animations.
+
+## AI Features
+- Display AI-generated strengths and risks using dedicated cards.
+- Improve markdown rendering in AI Chat.
+- Add copy-to-clipboard functionality for AI responses.
+
+## Code Quality
+- Remove unused imports.
+- Remove commented-out code.
+- Refactor repeated Tailwind utility classes.
+- Review component organization for consistency.
+
+## Documentation
+- Write a professional `README.md`.
+- Add architecture diagram.
+- Capture updated dashboard screenshots.
+- Create a short demo video/GIF.
+
+## Deployment
+- Deploy frontend.
+- Deploy backend.
+- Configure production environment variables.
+- Perform end-to-end testing on the deployed application.
+
+---

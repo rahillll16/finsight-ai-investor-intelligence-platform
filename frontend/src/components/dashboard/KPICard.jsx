@@ -80,7 +80,8 @@ function KPICard({
                 transition-all
                 duration-300
                 hover:-translate-y-1
-                hover:shadow-xl
+                hover:shadow-2xl
+                hover:shadow-orange-500/10
                 ${item?.border || "hover:border-orange-500"}
             `}
         >
@@ -94,8 +95,11 @@ function KPICard({
                     <div
                         className={`
                             rounded-xl
-                            bg-slate-800
+                            bg-slate-800/70
                             p-3
+                            transition-transform
+                            duration-300
+                            group-hover:scale-110
                             ${item?.iconColor || "text-orange-400"}
                         `}
                     >
@@ -143,7 +147,7 @@ function KPICard({
                     ${
                         formatFinancialValue(value) === "Data Unavailable"
                             ? "text-xl text-slate-400"
-                            : "text-3xl text-white"
+                            : "text-4xl font-extrabold tracking-tight"
                     }
                 `}
             >
@@ -156,7 +160,7 @@ function KPICard({
                 className="
                     mt-2
                     text-sm
-                    text-slate-500
+                    text-slate-400
                 "
             >
 

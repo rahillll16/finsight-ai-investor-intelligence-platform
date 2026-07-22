@@ -1,90 +1,197 @@
+import { BrainCircuit, ShieldCheck, ShieldAlert, AlertTriangle } from "lucide-react";
+
 function AISummary({ insights }) {
 
     const outlook = insights?.outlook;
 
-    const color =
+    const status =
         outlook?.rating === "Positive"
-            ? "text-green-400"
+            ? {
+                  icon: ShieldCheck,
+                  text: "Positive",
+                  color: "text-emerald-400",
+                  bg: "bg-emerald-500/10",
+                  border: "border-emerald-500/20"
+              }
             : outlook?.rating === "Cautious"
-                ? "text-red-400"
-                : "text-yellow-400";
+            ? {
+                  icon: ShieldAlert,
+                  text: "Cautious",
+                  color: "text-red-400",
+                  bg: "bg-red-500/10",
+                  border: "border-red-500/20"
+              }
+            : {
+                  icon: AlertTriangle,
+                  text: "Neutral",
+                  color: "text-yellow-400",
+                  bg: "bg-yellow-500/10",
+                  border: "border-yellow-500/20"
+              };
+
+    const StatusIcon = status.icon;
 
     return (
 
-        <div className="
-            rounded-3xl
-            border
-            border-slate-800
-            bg-slate-900
-            p-8
-        ">
+        <div
+            className="
+                rounded-3xl
+                border
+                border-slate-800
+                bg-slate-900
+                p-8
+                transition-all
+                duration-300
+                hover:border-orange-500/40
+                hover:shadow-xl
+                hover:shadow-orange-500/10
+            "
+        >
 
-            <h2 className="
-                text-2xl
-                font-bold
-            ">
+            {/* Header */}
 
-                AI Summary
+            <div className="flex items-center gap-4">
 
-            </h2>
+                <div
+                    className="
+                        flex
+                        h-12
+                        w-12
+                        items-center
+                        justify-center
+                        rounded-xl
+                        bg-orange-500/10
+                    "
+                >
+                    <BrainCircuit
+                        className="text-orange-500"
+                        size={24}
+                    />
+                </div>
 
-            {
+                <div>
 
-                outlook && (
+                    <h2 className="text-2xl font-bold text-white">
 
-                    <div className="
-                        mt-6
+                        AI Financial Analysis
+
+                    </h2>
+
+                    <p className="mt-1 text-sm text-slate-400">
+
+                        AI-generated analysis based on extracted financial metrics
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            {/* Body */}
+
+            <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                {/* Left */}
+
+                <div
+                    className={`
+                        flex
+                        flex-col
+                        justify-between
                         rounded-2xl
                         border
-                        border-slate-800
-                        bg-slate-800/60
-                        p-5
-                    ">
+                        p-8
+                        min-h-[260px]
+                        ${status.bg}
+                        ${status.border}
+                    `}
+                >
 
-                        <p className="text-sm text-slate-400">
+                    <div className="flex justify-center">
 
-                            Overall Financial Outlook
+                        <StatusIcon
+                            size={34}
+                            className={status.color}
+                        />
 
-                        </p>
+                    </div>
 
-                        <h3
-                            className={`
-                                mt-2
-                                text-2xl
-                                font-bold
-                                ${color}
-                            `}
-                        >
+                    <h3
+                        className={`
+                            mt-4
+                            text-center
+                            text-2xl
+                            font-bold
+                            ${status.color}
+                        `}
+                    >
 
-                            {outlook.rating}
+                        {status.text}
 
-                        </h3>
+                    </h3>
 
-                        <p className="mt-2 text-slate-300">
+                    <div className="mt-8">
 
-                            Confidence: {outlook.confidence}%
+                    <p className="text-xs uppercase tracking-widest text-slate-400">
+                        Confidence
+                    </p>
+
+                    <p className="mt-1 text-5xl font-extrabold text-white">
+
+                            {outlook?.confidence ?? "--"}%
 
                         </p>
 
                     </div>
 
-                )
+                </div>
 
-            }
+                {/* Right */}
 
-            <p className="
-                mt-8
-                leading-8
-                text-slate-300
-            ">
+                <div
+                    className="
+                        lg:col-span-2
+                        self-start
+                        rounded-2xl
+                        border
+                        border-slate-800
+                        bg-slate-800/40
+                        p-6
+                    "
+                >
 
-                {
-                    insights?.summary ||
+                    <p
+                        className="
+                            text-xs
+                            font-semibold
+                            uppercase
+                            tracking-widest
+                            text-slate-500
+                        "
+                    >
+                        Executive Summary
+                    </p>
 
-                    "Generating AI insights..."
-                }
+                    <p
+                        className="
+                            mt-4
+                            text-base
+                            leading-8
+                            max-w-3xl
+                            text-slate-300
+                        "
+                    >
 
-            </p>
+                        {
+                            insights?.summary ||
+                            "Generating AI financial analysis..."
+                        }
+
+                    </p>
+
+                </div>
+
+            </div>
 
         </div>
 
