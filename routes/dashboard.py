@@ -9,6 +9,8 @@ from database.db import SessionLocal
 from database.metrics import FinancialMetric
 from rag.ai_insights import generate_insights
 
+
+
 router = APIRouter(
     prefix="/dashboard",
     tags=["Dashboard"]
