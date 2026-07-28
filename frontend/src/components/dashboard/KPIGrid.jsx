@@ -5,27 +5,27 @@ function KPIGrid({ metrics }) {
     const cards = [
         {
             title: "Revenue",
-            value: metrics?.revenue,
+            value: metrics?.revenue?.display,
         },
         {
             title: "Net Income",
-            value: metrics?.net_income,
+            value: metrics?.net_income?.display,
         },
         {
             title: "Cash Flow",
-            value: metrics?.cash_flow,
+            value: metrics?.cash_flow?.display,
         },
         {
             title: "Debt",
-            value: metrics?.debt,
+            value: metrics?.debt?.display,
         },
         {
             title: "Operating Margin",
-            value: metrics?.operating_margin,
+            value: metrics?.operating_margin?.display,
         },
         {
             title: "R&D Expense",
-            value: metrics?.r_and_d_expense,
+            value: metrics?.r_and_d_expense?.display,
         }
     ];
 

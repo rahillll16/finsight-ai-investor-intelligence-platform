@@ -18,13 +18,15 @@ import DashboardSkeleton from "../components/dashboard/DashboardSkeleton";
 
 import ConfirmationModal from "../components/common/ConfirmationModal";
 
+import FinancialOverviewChart from "../components/dashboard/FinancialOverviewChart";
+
 function Dashboard() {
 
     const navigate = useNavigate();
 
     const [metrics, setMetrics] = useState(null);
 
-    const [company, setCompany] = useState("");
+    const [selectedReport, setSelectedReport] = useState(null);
 
     const [companies, setCompanies] = useState([]);
 
@@ -43,13 +45,14 @@ function Dashboard() {
     }, []);
 
     useEffect(() => {
-        
-        if (company) {
 
+        if (selectedReport) {
+    
             fetchDashboardData();
+    
         }
-
-    }, [company]);
+    
+    }, [selectedReport]);
 
     async function fetchCompanies() {
 
@@ -60,15 +63,15 @@ function Dashboard() {
             );
     
             setCompanies(response.data);
-    
+
             if (response.data.length > 0) {
-    
-                setCompany(response.data[0]);
-    
+
+                setSelectedReport(response.data[0]);
+
             } else {
-    
+
                 setLoading(false);
-    
+
             }
     
         } catch (error) {
@@ -87,8 +90,12 @@ function Dashboard() {
             setLoading(true);
 
             const [dashboardResponse, insightsResponse] = await Promise.all([
-                api.get(`/dashboard/${company}`),
-                api.get(`/dashboard/${company}/insights`)
+                api.get(
+                    `/dashboard/${selectedReport.company}/${selectedReport.year}`
+                ),
+                api.get(
+                    `/dashboard/${selectedReport.company}/${selectedReport.year}/insights`
+                )
             ]);
             
             setMetrics(dashboardResponse.data);
@@ -114,7 +121,7 @@ function Dashboard() {
         try {
     
             await api.delete(
-                `/reports/${company}/${metrics.year}`
+                `/reports/${selectedReport.company}/${selectedReport.year}`
             );
     
             const response = await api.get(
@@ -243,10 +250,21 @@ function Dashboard() {
             <div className="mb-8 flex items-center gap-4">
 
                 <select
-                    value={company}
-                    onChange={(e) =>
-                        setCompany(e.target.value)
+                    value={
+                        selectedReport
+                            ? `${selectedReport.company}-${selectedReport.year}`
+                            : ""
                     }
+                    onChange={(e) => {
+                
+                        const report = companies.find(
+                            (item) =>
+                                `${item.company}-${item.year}` === e.target.value
+                        );
+                
+                        setSelectedReport(report);
+                
+                    }}
                     className="
                         rounded-xl
                         bg-slate-900
@@ -264,13 +282,13 @@ function Dashboard() {
                     "
                 >
                     {
-                        companies.map((company) => (
+                        companies.map((report) => (
 
                             <option
-                                key={company}
-                                value={company}
+                                key={`${report.company}-${report.year}`}
+                                value={`${report.company}-${report.year}`}
                             >
-                                {company}
+                                {report.company} ({report.year})
                             </option>
 
                         ))
@@ -301,6 +319,8 @@ function Dashboard() {
 
             <KPIGrid metrics={metrics} />
 
+            <FinancialOverviewChart metrics={metrics} />
+
             <div className="mt-8">
 
                 <AISummary
@@ -316,7 +336,7 @@ function Dashboard() {
             <ConfirmationModal
                 isOpen={showDeleteModal}
                 title="Delete Report"
-                message={`Are you sure you want to delete ${company} (${metrics?.year})? This action cannot be undone.`}
+                message={`Are you sure you want to delete ${selectedReport?.company} (${selectedReport?.year})? This action cannot be undone.`}
                 onCancel={() => setShowDeleteModal(false)}
                 onConfirm={async () => {
                     setShowDeleteModal(false);
